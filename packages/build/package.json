@@ -4,7 +4,11 @@
   "description": "Build and distribution pipeline: npm publish, binaries, homebrew",
   "type": "module",
   "exports": {
-    ".": "./src/index.js"
+    ".": "./src/index.js",
+    "./npm-publish": "./src/npm-publish.js",
+    "./binary": "./src/binary.js",
+    "./homebrew": "./src/homebrew.js",
+    "./changelog": "./src/changelog.js"
   },
   "files": ["src"],
   "keywords": ["cli", "build", "publish", "homebrew", "shipcli"],
