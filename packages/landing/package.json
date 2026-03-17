@@ -1,0 +1,7 @@
+{
+  "name": "@shipcli/landing",
+  "version": "0.1.0",
+  "description": "Next.js landing page template with terminal demo",
+  "type": "module",
+  "license": "MIT"
+}

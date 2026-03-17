@@ -1,0 +1,81 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .: {}
+
+  packages/build:
+    dependencies:
+      '@shipcli/core':
+        specifier: workspace:*
+        version: link:../core
+
+  packages/cli:
+    dependencies:
+      '@shipcli/build':
+        specifier: workspace:*
+        version: link:../build
+      '@shipcli/core':
+        specifier: workspace:*
+        version: link:../core
+      '@shipcli/share':
+        specifier: workspace:*
+        version: link:../share
+
+  packages/core:
+    dependencies:
+      commander:
+        specifier: ^13.0.0
+        version: 13.1.0
+      kleur:
+        specifier: ^4.1.5
+        version: 4.1.5
+      nanospinner:
+        specifier: ^1.2.2
+        version: 1.2.2
+
+  packages/create-cli:
+    dependencies:
+      kleur:
+        specifier: ^4.1.5
+        version: 4.1.5
+
+  packages/landing: {}
+
+  packages/share:
+    dependencies:
+      '@shipcli/core':
+        specifier: workspace:*
+        version: link:../core
+
+packages:
+
+  commander@13.1.0:
+    resolution: {integrity: sha512-/rFeCpNJQbhSZjGVwO9RFV3xPqbnERS8MmIQzCtD/zl6gpJuV/bMLuN92oG3F7d8oDEHHRrujSXNUr8fpjntKw==}
+    engines: {node: '>=18'}
+
+  kleur@4.1.5:
+    resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
+    engines: {node: '>=6'}
+
+  nanospinner@1.2.2:
+    resolution: {integrity: sha512-Zt/AmG6qRU3e+WnzGGLuMCEAO/dAu45stNbHY223tUxldaDAeE+FxSPsd9Q+j+paejmm0ZbrNVs5Sraqy3dRxA==}
+
+  picocolors@1.1.1:
+    resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
+
+snapshots:
+
+  commander@13.1.0: {}
+
+  kleur@4.1.5: {}
+
+  nanospinner@1.2.2:
+    dependencies:
+      picocolors: 1.1.1
+
+  picocolors@1.1.1: {}

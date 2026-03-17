@@ -1,0 +1,17 @@
+{
+  "name": "shipcli",
+  "version": "0.1.0",
+  "description": "CLI-as-a-Product toolkit — build, publish, and promote CLI tools",
+  "type": "module",
+  "bin": {
+    "shipcli": "./src/cli.js"
+  },
+  "files": ["src"],
+  "keywords": ["cli", "toolkit", "shipcli"],
+  "license": "MIT",
+  "dependencies": {
+    "@shipcli/core": "workspace:*",
+    "@shipcli/build": "workspace:*",
+    "@shipcli/share": "workspace:*"
+  }
+}

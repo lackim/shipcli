@@ -1,0 +1,15 @@
+{
+  "name": "@shipcli/share",
+  "version": "0.1.0",
+  "description": "Viral share infrastructure: OG images, share links, terminal recording",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": ["src"],
+  "keywords": ["cli", "share", "og-image", "shipcli"],
+  "license": "MIT",
+  "dependencies": {
+    "@shipcli/core": "workspace:*"
+  }
+}
