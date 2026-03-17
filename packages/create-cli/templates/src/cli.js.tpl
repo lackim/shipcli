@@ -13,7 +13,6 @@ var cli = createCLI({
 cli
   .argument("[target]", "Target to analyze")
   .option("--share", "Generate shareable output")
-  .option("--json", "Output as JSON")
   .action(run);
 
 cli.run();
