@@ -22,6 +22,9 @@ importers:
       '@shipcli/core':
         specifier: workspace:*
         version: link:../core
+      '@shipcli/landing':
+        specifier: workspace:*
+        version: link:../landing
       '@shipcli/share':
         specifier: workspace:*
         version: link:../share
@@ -44,7 +47,11 @@ importers:
         specifier: ^4.1.5
         version: 4.1.5
 
-  packages/landing: {}
+  packages/landing:
+    dependencies:
+      '@shipcli/core':
+        specifier: workspace:*
+        version: link:../core
 
   packages/share:
     dependencies:

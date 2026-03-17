@@ -3,5 +3,12 @@
   "version": "0.1.0",
   "description": "Next.js landing page template with terminal demo",
   "type": "module",
-  "license": "MIT"
+  "exports": {
+    ".": "./src/scaffold.js"
+  },
+  "files": ["src", "templates"],
+  "license": "MIT",
+  "dependencies": {
+    "@shipcli/core": "workspace:*"
+  }
 }
