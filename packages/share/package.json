@@ -6,10 +6,19 @@
   "exports": {
     ".": "./src/index.js"
   },
-  "files": ["src"],
-  "keywords": ["cli", "share", "og-image", "shipcli"],
+  "files": [
+    "src"
+  ],
+  "keywords": [
+    "cli",
+    "share",
+    "og-image",
+    "shipcli"
+  ],
   "license": "MIT",
   "dependencies": {
-    "@shipcli/core": "workspace:*"
+    "@resvg/resvg-js": "^2.6.2",
+    "@shipcli/core": "workspace:*",
+    "satori": "^0.25.0"
   }
 }
