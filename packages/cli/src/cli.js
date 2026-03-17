@@ -75,4 +75,17 @@ cli
     generateChangelog({ cwd: process.cwd() });
   });
 
+// --- Landing ---
+var landingCmd = cli.command("landing").description("Manage landing page");
+
+landingCmd
+  .command("init")
+  .description("Scaffold a Next.js landing page for your CLI tool")
+  .option("--name <name>", "Tool name (auto-detected from package.json)")
+  .option("--description <desc>", "Tool description")
+  .action(async (options) => {
+    var { scaffoldLanding } = await import("@shipcli/landing");
+    scaffoldLanding({ ...options, cwd: process.cwd() });
+  });
+
 cli.run();

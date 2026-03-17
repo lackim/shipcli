@@ -12,6 +12,7 @@
   "dependencies": {
     "@shipcli/core": "workspace:*",
     "@shipcli/build": "workspace:*",
-    "@shipcli/share": "workspace:*"
+    "@shipcli/share": "workspace:*",
+    "@shipcli/landing": "workspace:*"
   }
 }
