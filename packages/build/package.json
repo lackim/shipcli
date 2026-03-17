@@ -1,0 +1,15 @@
+{
+  "name": "@shipcli/build",
+  "version": "0.1.0",
+  "description": "Build and distribution pipeline: npm publish, binaries, homebrew",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": ["src"],
+  "keywords": ["cli", "build", "publish", "homebrew", "shipcli"],
+  "license": "MIT",
+  "dependencies": {
+    "@shipcli/core": "workspace:*"
+  }
+}

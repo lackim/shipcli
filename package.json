@@ -1,0 +1,12 @@
+{
+  "name": "shipcli-monorepo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint packages/",
+    "test": "node --test packages/*/test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
