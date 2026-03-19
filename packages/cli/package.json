@@ -1,5 +1,5 @@
 {
-  "name": "shipcli",
+  "name": "@shipcli/cli",
   "version": "0.1.0",
   "description": "CLI-as-a-Product toolkit — build, publish, and promote CLI tools",
   "type": "module",
