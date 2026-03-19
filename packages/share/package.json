@@ -1,6 +1,6 @@
 {
   "name": "@shipcli/share",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Viral share infrastructure: OG images, share links, terminal recording",
   "type": "module",
   "exports": {
@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "@resvg/resvg-js": "^2.6.2",
-    "@shipcli/core": "workspace:*",
+    "@shipcli/core": "^0.1.0",
     "satori": "^0.25.0"
   }
 }
