@@ -1,6 +1,6 @@
 {
   "name": "@shipcli/cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CLI-as-a-Product toolkit — build, publish, and promote CLI tools",
   "type": "module",
   "bin": {
@@ -10,9 +10,9 @@
   "keywords": ["cli", "toolkit", "shipcli"],
   "license": "MIT",
   "dependencies": {
-    "@shipcli/core": "workspace:*",
-    "@shipcli/build": "workspace:*",
-    "@shipcli/share": "workspace:*",
-    "@shipcli/landing": "workspace:*"
+    "@shipcli/core": "^0.1.0",
+    "@shipcli/build": "^0.1.0",
+    "@shipcli/share": "^0.1.0",
+    "@shipcli/landing": "^0.1.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@shipcli/landing",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Next.js landing page template with terminal demo",
   "type": "module",
   "exports": {
@@ -9,6 +9,6 @@
   "files": ["src", "templates"],
   "license": "MIT",
   "dependencies": {
-    "@shipcli/core": "workspace:*"
+    "@shipcli/core": "^0.1.0"
   }
 }
