@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync, chmodSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
 
@@ -28,8 +28,10 @@ export class Config {
   }
 
   save() {
-    if (!existsSync(this.dir)) mkdirSync(this.dir, { recursive: true });
-    writeFileSync(this.path, JSON.stringify(this._data, null, 2) + "\n");
+    if (!existsSync(this.dir)) {
+      mkdirSync(this.dir, { recursive: true, mode: 0o700 });
+    }
+    writeFileSync(this.path, JSON.stringify(this._data, null, 2) + "\n", { mode: 0o600 });
     return this;
   }
 

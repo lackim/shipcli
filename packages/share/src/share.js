@@ -1,11 +1,14 @@
 import { writeFileSync, mkdirSync } from "fs";
-import { join } from "path";
+import { join, basename } from "path";
 import { success, hint, fmt } from "@shipcli/core/output";
 import { generateOgImage } from "./og-image.js";
 
 export async function share(template, data, options = {}) {
   var toolName = options.toolName || "shipcli";
   var filename = options.filename || `${toolName}-share.png`;
+
+  // Sanitize filename to prevent path traversal
+  filename = basename(filename);
 
   var outDir = options.outDir || process.cwd();
   mkdirSync(outDir, { recursive: true });
