@@ -1,4 +1,4 @@
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 import { writeFileSync, existsSync, readFileSync } from "fs";
 import { join } from "path";
 import { phase, success, fatal, fmt } from "@shipcli/core/output";
@@ -11,9 +11,10 @@ export function generateChangelog(options = {}) {
   // Get the last tag
   var lastTag;
   try {
-    lastTag = execSync("git describe --tags --abbrev=0 HEAD~1 2>/dev/null", {
+    lastTag = execFileSync("git", ["describe", "--tags", "--abbrev=0", "HEAD~1"], {
       cwd,
       encoding: "utf-8",
+      stdio: ["pipe", "pipe", "ignore"],
     }).trim();
   } catch {
     lastTag = null;
@@ -23,7 +24,7 @@ export function generateChangelog(options = {}) {
   var range = lastTag ? `${lastTag}..HEAD` : "HEAD";
   var log;
   try {
-    log = execSync(`git log ${range} --pretty=format:"%h %s" --no-merges`, {
+    log = execFileSync("git", ["log", range, "--pretty=format:%h %s", "--no-merges"], {
       cwd,
       encoding: "utf-8",
     }).trim();
