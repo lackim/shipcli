@@ -1,6 +1,6 @@
 {
   "name": "@shipcli/share",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Viral share infrastructure: OG images, share links, terminal recording",
   "type": "module",
   "exports": {
