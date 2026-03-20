@@ -2,6 +2,12 @@ import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 import { phase, success, fatal, fmt } from "@shipcli/core/output";
 
+function escapeRubyString(str) {
+  return str.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+}
+
+var VALID_REPO = /^[a-zA-Z0-9._-]+\/[a-zA-Z0-9._-]+$/;
+
 export function generateFormula(options = {}) {
   var cwd = options.cwd || process.cwd();
   var pkgPath = join(cwd, "package.json");
@@ -20,15 +26,21 @@ export function generateFormula(options = {}) {
     .join("");
 
   var repo = options.repo || pkg.repository?.url?.replace(/\.git$/, "").replace(/^.*github\.com\//, "") || `OWNER/${name}`;
+  if (!VALID_REPO.test(repo)) {
+    fatal(`Invalid repository: ${repo}`, "Use format: owner/repo");
+  }
   var version = options.version || pkg.version;
 
   phase(`Generating Homebrew formula for ${fmt.app(name)}`);
 
+  var desc = escapeRubyString(pkg.description || name);
+  var license = escapeRubyString(pkg.license || "MIT");
+
   var formula = `class ${className} < Formula
-  desc "${pkg.description || name}"
+  desc "${desc}"
   homepage "https://github.com/${repo}"
   url "https://registry.npmjs.org/${pkg.name}/-/${name}-#{version}.tgz"
-  license "${pkg.license || "MIT"}"
+  license "${license}"
 
   depends_on "node@20"
 

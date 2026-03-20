@@ -1,7 +1,9 @@
-import { execSync } from "child_process";
+import { execSync, execFileSync } from "child_process";
 import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 import { phase, status, success, fatal, fmt, hint } from "@shipcli/core/output";
+
+var VALID_ACCESS = new Set(["public", "restricted"]);
 
 export function publish(options = {}) {
   var cwd = options.cwd || process.cwd();
@@ -28,9 +30,9 @@ export function publish(options = {}) {
   // Git tag
   if (!options.skipGit) {
     try {
-      execSync(`git add package.json`, { cwd, stdio: "pipe" });
-      execSync(`git commit -m "v${newVersion}"`, { cwd, stdio: "pipe" });
-      execSync(`git tag v${newVersion}`, { cwd, stdio: "pipe" });
+      execFileSync("git", ["add", "package.json"], { cwd, stdio: "pipe" });
+      execFileSync("git", ["commit", "-m", `v${newVersion}`], { cwd, stdio: "pipe" });
+      execFileSync("git", ["tag", `v${newVersion}`], { cwd, stdio: "pipe" });
       status(`Git tag: ${fmt.val("v" + newVersion)}`);
     } catch (err) {
       status(fmt.dim("Git tag skipped (not a git repo or no changes)"));
@@ -40,11 +42,14 @@ export function publish(options = {}) {
   // npm publish
   if (options.dryRun) {
     status(fmt.dim("Dry run — skipping npm publish"));
-    execSync(`npm publish --dry-run`, { cwd, stdio: "inherit" });
+    execFileSync("npm", ["publish", "--dry-run"], { cwd, stdio: "inherit" });
   } else {
     var access = options.access || "public";
+    if (!VALID_ACCESS.has(access)) {
+      fatal(`Invalid access level: ${access}`, "Use 'public' or 'restricted'.");
+    }
     try {
-      execSync(`npm publish --access ${access}`, { cwd, stdio: "inherit" });
+      execFileSync("npm", ["publish", "--access", access], { cwd, stdio: "inherit" });
       success(`Published ${fmt.app(pkg.name)}@${fmt.val(newVersion)} to npm`);
     } catch {
       fatal("npm publish failed.", "Check your npm auth: npm whoami");

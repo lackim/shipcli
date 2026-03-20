@@ -2,6 +2,18 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, chmodSync } from "f
 import { join } from "path";
 import { homedir } from "os";
 
+var FORBIDDEN_KEYS = new Set(["__proto__", "constructor", "prototype"]);
+
+function validateKey(key) {
+  var parts = key.split(".");
+  for (var part of parts) {
+    if (FORBIDDEN_KEYS.has(part)) {
+      throw new Error(`Invalid config key: ${key}`);
+    }
+  }
+  return parts;
+}
+
 export class Config {
   constructor(toolName, options = {}) {
     this.toolName = toolName;
@@ -41,7 +53,7 @@ export class Config {
   }
 
   get(key) {
-    var parts = key.split(".");
+    var parts = validateKey(key);
     var obj = this.data;
     for (var part of parts) {
       if (obj == null || typeof obj !== "object") return undefined;
@@ -51,7 +63,7 @@ export class Config {
   }
 
   set(key, value) {
-    var parts = key.split(".");
+    var parts = validateKey(key);
     var obj = this.data;
     for (var i = 0; i < parts.length - 1; i++) {
       if (obj[parts[i]] == null || typeof obj[parts[i]] !== "object") {
@@ -68,7 +80,7 @@ export class Config {
   }
 
   delete(key) {
-    var parts = key.split(".");
+    var parts = validateKey(key);
     var obj = this.data;
     for (var i = 0; i < parts.length - 1; i++) {
       if (obj[parts[i]] == null || typeof obj[parts[i]] !== "object") return this;

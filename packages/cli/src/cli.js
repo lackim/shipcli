@@ -18,9 +18,10 @@ cli
   .command("init [name]")
   .description("Scaffold a new CLI tool (alias for npx create-shipcli)")
   .action(async (name) => {
-    var { execSync } = await import("child_process");
-    var args = name ? ` ${name}` : "";
-    execSync(`npx create-shipcli${args}`, { stdio: "inherit" });
+    var { execFileSync } = await import("child_process");
+    var args = ["create-shipcli"];
+    if (name) args.push(name);
+    execFileSync("npx", args, { stdio: "inherit" });
   });
 
 // --- Publish ---

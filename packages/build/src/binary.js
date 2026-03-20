@@ -1,4 +1,4 @@
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 import { readFileSync, mkdirSync, existsSync } from "fs";
 import { join } from "path";
 import { phase, status, success, fatal, fmt } from "@shipcli/core/output";
@@ -31,7 +31,7 @@ export function build(options = {}) {
 
   // Check bun is available
   try {
-    execSync("bun --version", { stdio: "pipe" });
+    execFileSync("bun", ["--version"], { stdio: "pipe" });
   } catch {
     fatal("Bun is required for binary builds.", `Install it: ${fmt.cmd("curl -fsSL https://bun.sh/install | bash")}`);
   }
@@ -45,8 +45,9 @@ export function build(options = {}) {
 
     var s = spinner(`Building ${target.label}...`).start();
     try {
-      execSync(
-        `bun build ${entrypoint} --compile --target=${target.bun} --outfile ${outPath}`,
+      execFileSync(
+        "bun",
+        ["build", entrypoint, "--compile", `--target=${target.bun}`, "--outfile", outPath],
         { cwd, stdio: "pipe" }
       );
       s.success({ text: `${target.label} → ${fmt.dim(outName)}` });

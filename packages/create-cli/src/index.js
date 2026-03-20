@@ -11,9 +11,17 @@ var TEMPLATES_DIR = join(__dirname, "..", "templates");
 var args = process.argv.slice(2);
 var name = args[0];
 
+var VALID_NAME = /^[a-zA-Z][a-zA-Z0-9_-]*$/;
+
 if (!name) {
   console.error(kleur.red("Usage: create-shipcli <name>"));
   console.error(kleur.dim("  Example: npx create-shipcli codeautopsy"));
+  process.exit(1);
+}
+
+if (!VALID_NAME.test(name)) {
+  console.error(kleur.red(`Invalid name: ${name}`));
+  console.error(kleur.dim("  Use letters, numbers, hyphens, and underscores only."));
   process.exit(1);
 }
 
