@@ -5,7 +5,12 @@
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+![shipcli — Build. Package. Launch.](web/public/shipcli-social-preview.png)
+
 Build, package, and launch command-line products from one JavaScript toolkit.
+
+[Read the documentation](https://lackim.github.io/shipcli/) or start with the
+generator below.
 
 > **Project status:** early access (`0.x`). The public API may change between minor
 > releases. Feedback and focused contributions are welcome.
@@ -21,7 +26,6 @@ Create a new CLI:
 ```bash
 npx @shipcli/create my-cli
 cd my-cli
-npm install
 npm start -- --help
 ```
 
@@ -32,8 +36,12 @@ npm install --global @shipcli/cli
 shipcli --help
 ```
 
-Requirements: Node.js 20 or newer. Binary builds additionally require
+Requirements: Node.js 20.9 or newer for this repository. Published CLI packages
+support Node.js 20 or newer. Binary builds additionally require
 [Bun](https://bun.sh/).
+
+The generator initializes git and installs dependencies by default. Use
+`--no-git` or `--no-install` when you want to handle those steps yourself.
 
 ## What it provides
 

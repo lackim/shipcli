@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync, readFileSync, readdirSync, statSync } from "fs";
+import { existsSync, mkdirSync, writeFileSync, readFileSync, readdirSync, statSync } from "fs";
 import { join, dirname, relative } from "path";
 import { fileURLToPath } from "url";
 import { phase, status, success, fatal, fmt } from "@shipcli/core/output";
@@ -23,6 +23,10 @@ export function scaffoldLanding(options = {}) {
   }
 
   var outDir = join(cwd, "web");
+  if (existsSync(outDir) && readdirSync(outDir).length > 0 && !options.force) {
+    fatal("The web/ directory is not empty.", "Move it, remove it, or pass --force to overwrite template files.");
+  }
+
   phase(`Scaffolding landing page for ${fmt.app(name)}`);
 
   mkdirSync(outDir, { recursive: true });
@@ -35,6 +39,19 @@ export function scaffoldLanding(options = {}) {
   status(`npm install`);
   status(`npm run dev`);
   status("");
+}
+
+function escapeTemplateString(value) {
+  return JSON.stringify(String(value)).slice(1, -1);
+}
+
+function escapeJsxText(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\{/g, "&#123;")
+    .replace(/\}/g, "&#125;");
 }
 
 function processDir(srcDir, outBase, vars, rootOut) {
@@ -54,8 +71,10 @@ function processDir(srcDir, outBase, vars, rootOut) {
 
     var content = readFileSync(srcPath, "utf-8");
     content = content
-      .replace(/\{\{name\}\}/g, vars.name)
-      .replace(/\{\{description\}\}/g, vars.description);
+      .replace(/\{\{nameText\}\}/g, escapeJsxText(vars.name))
+      .replace(/\{\{descriptionText\}\}/g, escapeJsxText(vars.description))
+      .replace(/\{\{name\}\}/g, escapeTemplateString(vars.name))
+      .replace(/\{\{description\}\}/g, escapeTemplateString(vars.description));
 
     var outName = entry.replace(".tpl", "");
     var outPath = join(outBase, outName);

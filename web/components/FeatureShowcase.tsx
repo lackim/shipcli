@@ -1,12 +1,12 @@
 const FEATURES = [
   {
     title: "Scaffold in Seconds",
-    description: "npx create-shipcli generates a complete CLI project with commands, config, and CI/CD.",
+    description: "npx @shipcli/create generates a tested CLI project with git, dependencies, and CI.",
     icon: "⚡",
   },
   {
     title: "Viral Sharing",
-    description: "Built-in --share flag generates OG images for X/LinkedIn. Make your CLI output go viral.",
+    description: "The generated --share flag creates a ready-to-post PNG without a runtime font download.",
     icon: "🖼",
   },
   {

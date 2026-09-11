@@ -6,6 +6,10 @@ import { hint, fmt } from "./output.js";
 var CHECK_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours
 
 export async function checkForUpdate(name, currentVersion) {
+  if (process.env.CI || process.env.NO_UPDATE_NOTIFIER || process.env.SHIPCLI_DISABLE_UPDATE_CHECK === "1") {
+    return;
+  }
+
   try {
     var cacheDir = join(homedir(), `.${name}`);
     var cachePath = join(cacheDir, "update-check.json");

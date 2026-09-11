@@ -1,13 +1,19 @@
 #!/usr/bin/env node
 
 import { createCLI } from "@shipcli/core/cli";
+import { readFileSync } from "fs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 import { run } from "./commands/index.js";
+
+var __dirname = dirname(fileURLToPath(import.meta.url));
+var pkg = JSON.parse(readFileSync(join(__dirname, "..", "package.json"), "utf-8"));
 
 var cli = createCLI({
   name: "{{name}}",
+  packageName: pkg.name,
   description: "{{description}}",
-  version: "0.1.0",
-  configDir: ".{{name}}",
+  version: pkg.version,
 });
 
 cli

@@ -14,6 +14,7 @@ var TARGETS = [
 
 export function build(options = {}) {
   var cwd = options.cwd || process.cwd();
+  var run = options.execFile || execFileSync;
   var pkgPath = join(cwd, "package.json");
   var pkg;
 
@@ -31,7 +32,7 @@ export function build(options = {}) {
 
   // Check bun is available
   try {
-    execFileSync("bun", ["--version"], { stdio: "pipe" });
+    run("bun", ["--version"], { stdio: "pipe" });
   } catch {
     fatal("Bun is required for binary builds.", `Install it: ${fmt.cmd("curl -fsSL https://bun.sh/install | bash")}`);
   }
@@ -45,7 +46,7 @@ export function build(options = {}) {
 
     var s = spinner(`Building ${target.label}...`).start();
     try {
-      execFileSync(
+      run(
         "bun",
         ["build", entrypoint, "--compile", `--target=${target.bun}`, "--outfile", outPath],
         { cwd, stdio: "pipe" }

@@ -12,7 +12,7 @@ well-scoped changes with a clear use case are especially valuable.
 
 ## Local setup
 
-You need Node.js 20 or newer and pnpm 10.
+You need Node.js 20.9 or newer and pnpm 10.
 
 ```bash
 corepack enable
@@ -27,8 +27,10 @@ To work on the website, run `pnpm dev:web`.
 1. Create a branch from `main`.
 2. Add or update tests when behavior changes.
 3. Run `pnpm check` and, for website changes, `pnpm build:web`.
-4. Explain the problem and the chosen solution in the pull request.
-5. Call out breaking changes and user-visible limitations explicitly.
+4. Run `pnpm changeset` for user-visible package changes and commit the generated
+   markdown file.
+5. Explain the problem and the chosen solution in the pull request.
+6. Call out breaking changes and user-visible limitations explicitly.
 
 By contributing, you agree that your contribution is licensed under the MIT
 License that covers this repository.

@@ -90,6 +90,7 @@ landingCmd
   .description("Scaffold a Next.js landing page for your CLI tool")
   .option("--name <name>", "Tool name (auto-detected from package.json)")
   .option("--description <desc>", "Tool description")
+  .option("--force", "Overwrite files in an existing web directory")
   .action(async (options) => {
     var { scaffoldLanding } = await import("@shipcli/landing");
     scaffoldLanding({ ...options, cwd: process.cwd() });

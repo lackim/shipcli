@@ -1,6 +1,6 @@
 {
   "name": "@shipcli/build",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Build and distribution pipeline: npm publish, binaries, homebrew",
   "type": "module",
   "exports": {
@@ -10,7 +10,7 @@
     "./homebrew": "./src/homebrew.js",
     "./changelog": "./src/changelog.js"
   },
-  "files": ["src"],
+  "files": ["src", "CHANGELOG.md"],
   "keywords": ["cli", "build", "publish", "homebrew", "shipcli"],
   "license": "MIT",
   "homepage": "https://github.com/lackim/shipcli#readme",
@@ -29,6 +29,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@shipcli/core": "^0.1.2"
+    "@shipcli/core": "workspace:^"
   }
 }

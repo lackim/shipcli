@@ -7,6 +7,7 @@ var VALID_ACCESS = new Set(["public", "restricted"]);
 
 export function publish(options = {}) {
   var cwd = options.cwd || process.cwd();
+  var run = options.execFile || execFileSync;
   var pkgPath = join(cwd, "package.json");
   var pkg;
 
@@ -31,7 +32,7 @@ export function publish(options = {}) {
   if (options.dryRun) {
     status(`Planned version: ${fmt.dim(currentVersion)} → ${fmt.val(newVersion)} (${bump})`);
     status(fmt.dim("Dry run — package.json, git history, and tags will not be changed"));
-    execFileSync("npm", ["publish", "--dry-run", "--access", access], {
+    run("npm", ["publish", "--dry-run", "--access", access], {
       cwd,
       stdio: "inherit",
     });
@@ -46,7 +47,7 @@ export function publish(options = {}) {
 
   // npm publish
   try {
-    execFileSync("npm", ["publish", "--access", access], { cwd, stdio: "inherit" });
+    run("npm", ["publish", "--access", access], { cwd, stdio: "inherit" });
     success(`Published ${fmt.app(pkg.name)}@${fmt.val(newVersion)} to npm`);
   } catch {
     writeFileSync(pkgPath, originalPackage);
@@ -56,9 +57,9 @@ export function publish(options = {}) {
   // Create release history only after npm accepts the package.
   if (!options.skipGit) {
     try {
-      execFileSync("git", ["add", "package.json"], { cwd, stdio: "pipe" });
-      execFileSync("git", ["commit", "-m", `v${newVersion}`], { cwd, stdio: "pipe" });
-      execFileSync("git", ["tag", `v${newVersion}`], { cwd, stdio: "pipe" });
+      run("git", ["add", "package.json"], { cwd, stdio: "pipe" });
+      run("git", ["commit", "-m", `v${newVersion}`], { cwd, stdio: "pipe" });
+      run("git", ["tag", `v${newVersion}`], { cwd, stdio: "pipe" });
       status(`Git tag: ${fmt.val("v" + newVersion)}`);
       hint("Next", `Push the tag: ${fmt.cmd(`git push && git push origin v${newVersion}`)}`);
     } catch {

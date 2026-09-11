@@ -1,5 +1,7 @@
 node_modules/
 dist/
+*-share.png
+*-result.png
 .DS_Store
 *.log
 .env

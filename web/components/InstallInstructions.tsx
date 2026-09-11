@@ -3,11 +3,11 @@
 import { useState } from "react";
 
 const METHODS = [
-  { label: "npx", command: "npx create-shipcli my-cli" },
+  { label: "npx", command: "npx @shipcli/create my-cli" },
   { label: "npm", command: "npm install -g @shipcli/cli" },
 ];
 
-export function InstallInstructions({ name }: { name: string }) {
+export function InstallInstructions() {
   const [active, setActive] = useState(0);
   const [copied, setCopied] = useState(false);
 

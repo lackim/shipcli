@@ -8,7 +8,7 @@ const METHODS = [
   { label: "binary", command: "curl -fsSL https://{{name}}.dev/install | sh" },
 ];
 
-export function InstallInstructions({ name }: { name: string }) {
+export function InstallInstructions() {
   const [active, setActive] = useState(0);
   const [copied, setCopied] = useState(false);
 

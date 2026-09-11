@@ -6,16 +6,20 @@
   "scripts": {
     "build:web": "pnpm --filter shipcli-web build",
     "check": "pnpm lint && pnpm test",
+    "changeset": "changeset",
     "dev:web": "pnpm --filter shipcli-web dev",
     "lint": "eslint .",
+    "release": "pnpm check && changeset publish",
     "test": "node --test test/*.test.js"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=20.9.0"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "eslint": "^10.10.0",
+    "@changesets/cli": "^2.31.1",
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.4",
     "globals": "^17.12.0"
   }
 }

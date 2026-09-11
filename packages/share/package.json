@@ -1,13 +1,14 @@
 {
   "name": "@shipcli/share",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Viral share infrastructure: OG images, share links, terminal recording",
   "type": "module",
   "exports": {
     ".": "./src/index.js"
   },
   "files": [
-    "src"
+    "src",
+    "CHANGELOG.md"
   ],
   "keywords": [
     "cli",
@@ -32,8 +33,9 @@
     "access": "public"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.3.0",
     "@resvg/resvg-js": "^2.6.2",
-    "@shipcli/core": "^0.1.2",
+    "@shipcli/core": "workspace:^",
     "satori": "^0.25.0"
   }
 }

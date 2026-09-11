@@ -15,7 +15,7 @@ export default function Home() {
         <p className="text-xl text-neutral-400 max-w-2xl mx-auto mb-12">
           CLI-as-a-Product toolkit — build, publish, and promote CLI tools
         </p>
-        <InstallInstructions name="shipcli" />
+        <InstallInstructions />
       </section>
 
       {/* Terminal Demo */}

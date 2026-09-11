@@ -20,7 +20,9 @@ test("Config persists nested values with private file permissions", (t) => {
   assert.deepEqual(JSON.parse(readFileSync(config.path, "utf-8")), {
     output: { format: "json" },
   });
-  assert.equal(statSync(config.path).mode & 0o777, 0o600);
+  if (process.platform !== "win32") {
+    assert.equal(statSync(config.path).mode & 0o777, 0o600);
+  }
 });
 
 test("Config rejects prototype-pollution keys", () => {

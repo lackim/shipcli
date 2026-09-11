@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const DEMO_LINES = [
-  { text: "$ npx create-shipcli my-cli", delay: 0, color: "#e5e5e5" },
+  { text: "$ npx @shipcli/create my-cli", delay: 0, color: "#e5e5e5" },
   { text: "", delay: 400 },
   { text: "==> Scaffolding my-cli", delay: 600, color: "#06b6d4" },
   { text: "    created package.json", delay: 800, color: "#737373" },

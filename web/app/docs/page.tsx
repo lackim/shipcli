@@ -57,18 +57,18 @@ export default function Docs() {
           <Section id="getting-started" title="Getting Started">
             <P>
               shipcli is a CLI-as-a-Product toolkit. It helps you scaffold a new CLI project,
-              add viral sharing features, publish to npm, build cross-platform binaries,
+              add shareable output, publish to npm, build cross-platform binaries,
               and generate landing pages.
             </P>
             <H3>Install</H3>
             <Code>{`npm install -g @shipcli/cli`}</Code>
 
             <H3>Create your first CLI</H3>
-            <Code>{`npx create-shipcli my-cli
+            <Code>{`npx @shipcli/create my-cli
 cd my-cli
 
 # Run your CLI
-node src/cli.js --help
+npm start -- --help
 
 # Publish to npm
 shipcli publish --bump patch`}</Code>
@@ -80,8 +80,11 @@ shipcli publish --bump patch`}</Code>
             <Code>{`my-cli/
   package.json          # @shipcli/core + @shipcli/share deps
   shipcli.config.js     # Tool metadata
+  test/                 # Starter test
+  .github/workflows/    # CI workflow
   src/
     cli.js              # createCLI() entry point
+    share-card.js       # --share image template
     commands/
       index.js          # Main command`}</Code>
             <P>
@@ -93,7 +96,7 @@ shipcli publish --bump patch`}</Code>
           {/* CLI Commands */}
           <Section id="commands" title="CLI Commands">
             <H3>shipcli init [name]</H3>
-            <P>Scaffold a new CLI tool. Delegates to <Mono>npx create-shipcli</Mono>.</P>
+            <P>Scaffold a new CLI tool. Delegates to <Mono>npx @shipcli/create</Mono>.</P>
             <Code>{`shipcli init my-cli`}</Code>
 
             <H3>shipcli publish</H3>
@@ -142,9 +145,9 @@ shipcli landing init --name my-cli --description "My awesome CLI"`}</Code>
 
 const cli = createCLI({
   name: "my-cli",
+  packageName: "my-cli", // npm package used by the update check
   description: "My awesome CLI tool",
   version: "0.1.0",
-  configDir: ".my-cli",  // → ~/.my-cli/config.json
 });
 
 cli.command("run <target>")
@@ -157,7 +160,7 @@ cli.run();`}</Code>
             <P>Automatically adds:</P>
             <ul className="list-disc list-inside text-neutral-400 mb-4 space-y-1">
               <li><Mono>--json</Mono> global flag</li>
-              <li>Auto update check (cached 24h, non-blocking)</li>
+              <li>Auto update check (cached 24h, skipped in CI)</li>
               <li>Global error handler for uncaught exceptions</li>
             </ul>
           </Section>
@@ -294,7 +297,7 @@ await share(myCard, reportData, {
 });`}</Code>
             <P>
               Satori renders the element tree to SVG, then resvg converts to PNG.
-              The Inter font is loaded automatically from Google Fonts.
+              Inter is provided by a local package dependency, so rendering works offline.
             </P>
             <P>
               Add <Mono>--share</Mono> to your CLI command to let users generate shareable cards:
@@ -377,10 +380,10 @@ generateChangelog({ cwd: process.cwd() });
           <Section id="packages" title="Packages">
             <OptionsTable rows={[
               ["@shipcli/core", "CLI framework: output, config, commands, spinner"],
-              ["@shipcli/share", "OG image generation for viral sharing"],
+              ["@shipcli/share", "Shareable OG image generation"],
               ["@shipcli/build", "npm publish, binary builds, homebrew formulas"],
               ["@shipcli/landing", "Next.js landing page scaffolding"],
-              ["@shipcli/create", "npx create-shipcli scaffolding"],
+              ["@shipcli/create", "npx @shipcli/create scaffolding"],
               ["@shipcli/cli", "shipcli CLI orchestrator"],
             ]} />
           </Section>

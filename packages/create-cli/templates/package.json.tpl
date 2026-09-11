@@ -17,6 +17,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@shipcli/core": "^0.1.2"
+    "@shipcli/core": "^0.2.0",
+    "@shipcli/share": "^0.2.0"
   }
 }

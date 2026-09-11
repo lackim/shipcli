@@ -1,35 +1,30 @@
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
+import { readFileSync } from "fs";
+import { createRequire } from "module";
 
-var fontCache = null;
+var require = createRequire(import.meta.url);
+var fontCache;
 
-async function loadFont() {
+function loadFonts() {
   if (fontCache) return fontCache;
 
-  // Try to load Inter from system, fallback to fetching from Google Fonts
-  try {
-    var res = await fetch(
-      "https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
-    );
-    var css = await res.text();
-    var fontUrl = css.match(/src: url\(([^)]+)\)/)?.[1];
-    if (fontUrl) {
-      var fontRes = await fetch(fontUrl);
-      fontCache = await fontRes.arrayBuffer();
-      return fontCache;
-    }
-  } catch {}
+  fontCache = [
+    {
+      name: "Inter",
+      data: readFileSync(require.resolve("@fontsource/inter/files/inter-latin-400-normal.woff")),
+      weight: 400,
+      style: "normal",
+    },
+    {
+      name: "Inter",
+      data: readFileSync(require.resolve("@fontsource/inter/files/inter-latin-700-normal.woff")),
+      weight: 700,
+      style: "normal",
+    },
+  ];
 
-  // Fallback: fetch directly from Google Fonts CDN
-  try {
-    var directRes = await fetch(
-      "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hiA.woff2"
-    );
-    fontCache = await directRes.arrayBuffer();
-    return fontCache;
-  } catch {}
-
-  return null;
+  return fontCache;
 }
 
 export async function generateOgImage(template, data, options = {}) {
@@ -37,14 +32,7 @@ export async function generateOgImage(template, data, options = {}) {
   var height = options.height || 630;
 
   var element = template(data);
-  var font = await loadFont();
-
-  var fonts = font
-    ? [
-        { name: "Inter", data: font, weight: 400, style: "normal" },
-        { name: "Inter", data: font, weight: 700, style: "normal" },
-      ]
-    : [];
+  var fonts = options.fonts || loadFonts();
 
   var svg = await satori(element, {
     width,
