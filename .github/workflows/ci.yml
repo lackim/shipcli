@@ -43,8 +43,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run checks
-        run: pnpm check
+      - name: Run lint
+        run: pnpm lint
+
+      - name: Run core and build tests
+        run: node --test test/build.test.js test/config.test.js test/landing.test.js test/output.test.js
+
+      - name: Run share tests
+        if: ${{ !cancelled() }}
+        run: node --test test/share.test.js
+
+      - name: Run CLI smoke tests
+        if: ${{ !cancelled() }}
+        run: node --test test/smoke.test.js
 
   web:
     name: Website build

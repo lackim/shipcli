@@ -4,8 +4,9 @@ import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
-var repoRoot = new URL("..", import.meta.url).pathname;
+var repoRoot = fileURLToPath(new URL("..", import.meta.url));
 
 test("shipcli reports the package version", () => {
   var result = spawnSync(process.execPath, ["packages/cli/src/cli.js", "--version"], {
