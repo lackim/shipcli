@@ -47,7 +47,7 @@ export var fmt = {
 };
 
 function stripAnsi(str) {
-  return String(str).replace(/\x1B\[[0-9;]*m/g, "");
+  return String(str).replace(new RegExp("\\u001B\\[[0-9;]*m", "g"), "");
 }
 
 function padEnd(str, len) {
@@ -74,9 +74,9 @@ export function table(headers, rows) {
       .join("")
   );
   lines.push(kleur.dim(widths.map((w) => "─".repeat(w)).join("  ")));
-  for (var row of rows) {
+  for (var dataRow of rows) {
     lines.push(
-      row.map((cell, i) => padEnd(String(cell || ""), widths[i] + 2)).join("")
+      dataRow.map((cell, i) => padEnd(String(cell || ""), widths[i] + 2)).join("")
     );
   }
 
@@ -102,7 +102,7 @@ export function box(title, lines) {
 }
 
 export function progressBar(current, total, width = 30) {
-  var ratio = Math.min(current / total, 1);
+  var ratio = total > 0 ? Math.min(Math.max(current / total, 0), 1) : 0;
   var filled = Math.round(width * ratio);
   var empty = width - filled;
   var bar = kleur.green("█".repeat(filled)) + kleur.dim("░".repeat(empty));

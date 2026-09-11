@@ -14,6 +14,21 @@
   "files": ["src"],
   "keywords": ["cli", "framework", "shipcli"],
   "license": "MIT",
+  "homepage": "https://github.com/lackim/shipcli#readme",
+  "bugs": {
+    "url": "https://github.com/lackim/shipcli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lackim/shipcli.git",
+    "directory": "packages/core"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "commander": "^13.0.0",
     "kleur": "^4.1.5",

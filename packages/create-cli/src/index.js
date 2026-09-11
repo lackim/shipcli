@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { mkdirSync, writeFileSync, readFileSync, readdirSync, statSync } from "fs";
+import { existsSync, mkdirSync, writeFileSync, readFileSync, readdirSync, statSync } from "fs";
 import { join, dirname, relative } from "path";
 import { fileURLToPath } from "url";
 import kleur from "kleur";
@@ -11,7 +11,7 @@ var TEMPLATES_DIR = join(__dirname, "..", "templates");
 var args = process.argv.slice(2);
 var name = args[0];
 
-var VALID_NAME = /^[a-zA-Z][a-zA-Z0-9_-]*$/;
+var VALID_NAME = /^[a-z][a-z0-9-]*$/;
 
 if (!name) {
   console.error(kleur.red("Usage: create-shipcli <name>"));
@@ -21,7 +21,7 @@ if (!name) {
 
 if (!VALID_NAME.test(name)) {
   console.error(kleur.red(`Invalid name: ${name}`));
-  console.error(kleur.dim("  Use letters, numbers, hyphens, and underscores only."));
+  console.error(kleur.dim("  Use lowercase letters, numbers, and hyphens; start with a letter."));
   process.exit(1);
 }
 
@@ -31,7 +31,15 @@ var share = true;
 console.log(`\n${kleur.bold().cyan("==>")} ${kleur.bold(`Creating ${name}...`)}\n`);
 
 var outDir = join(process.cwd(), name);
+if (existsSync(outDir) && readdirSync(outDir).length > 0) {
+  console.error(kleur.red(`Cannot create ${name}: the destination directory is not empty.`));
+  process.exit(1);
+}
 mkdirSync(outDir, { recursive: true });
+
+function escapeTemplateString(value) {
+  return JSON.stringify(value).slice(1, -1);
+}
 
 function processTemplates(dir, outBase) {
   var entries = readdirSync(dir);
@@ -50,8 +58,8 @@ function processTemplates(dir, outBase) {
 
     var content = readFileSync(srcPath, "utf-8");
     content = content
-      .replace(/\{\{name\}\}/g, name)
-      .replace(/\{\{description\}\}/g, description)
+      .replace(/\{\{name\}\}/g, escapeTemplateString(name))
+      .replace(/\{\{description\}\}/g, escapeTemplateString(description))
       .replace(/\{\{share\}\}/g, String(share));
 
     var outName = entry.replace(".tpl", "");

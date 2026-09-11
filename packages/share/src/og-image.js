@@ -1,10 +1,5 @@
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
-import { readFileSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
-
-var __dirname = dirname(fileURLToPath(import.meta.url));
 
 var fontCache = null;
 

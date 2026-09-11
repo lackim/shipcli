@@ -5,21 +5,27 @@ import { publish } from "@shipcli/build/npm-publish";
 import { build } from "@shipcli/build/binary";
 import { generateFormula } from "@shipcli/build/homebrew";
 import { generateChangelog } from "@shipcli/build/changelog";
+import { readFileSync } from "fs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+
+var __dirname = dirname(fileURLToPath(import.meta.url));
+var pkg = JSON.parse(readFileSync(join(__dirname, "..", "package.json"), "utf-8"));
 
 var cli = createCLI({
   name: "shipcli",
   description: "CLI-as-a-Product toolkit — build, publish, and promote CLI tools",
-  version: "0.1.0",
-  configDir: ".shipcli",
+  version: pkg.version,
+  packageName: pkg.name,
 });
 
 // --- Init (delegates to create-shipcli) ---
 cli
   .command("init [name]")
-  .description("Scaffold a new CLI tool (alias for npx create-shipcli)")
+  .description("Scaffold a new CLI tool (alias for npx @shipcli/create)")
   .action(async (name) => {
     var { execFileSync } = await import("child_process");
-    var args = ["create-shipcli"];
+    var args = ["@shipcli/create"];
     if (name) args.push(name);
     execFileSync("npx", args, { stdio: "inherit" });
   });

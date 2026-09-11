@@ -2,11 +2,20 @@
   "name": "shipcli-monorepo",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.17.1",
   "scripts": {
-    "lint": "eslint packages/",
-    "test": "node --test packages/*/test/*.test.js"
+    "build:web": "pnpm --filter shipcli-web build",
+    "check": "pnpm lint && pnpm test",
+    "dev:web": "pnpm --filter shipcli-web dev",
+    "lint": "eslint .",
+    "test": "node --test test/*.test.js"
   },
   "engines": {
     "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.10.0",
+    "globals": "^17.12.0"
   }
 }

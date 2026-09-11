@@ -73,13 +73,13 @@ export function generateChangelog(options = {}) {
 
   if (features.length > 0) {
     lines.push("### Features", "");
-    for (var f of features) lines.push(`- ${f.msg} (${f.hash})`);
+    for (var feature of features) lines.push(`- ${feature.msg} (${feature.hash})`);
     lines.push("");
   }
 
   if (fixes.length > 0) {
     lines.push("### Fixes", "");
-    for (var f of fixes) lines.push(`- ${f.msg} (${f.hash})`);
+    for (var fix of fixes) lines.push(`- ${fix.msg} (${fix.hash})`);
     lines.push("");
   }
 

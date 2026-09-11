@@ -7,8 +7,24 @@
     ".": "./src/scaffold.js"
   },
   "files": ["src", "templates"],
+  "keywords": ["cli", "landing-page", "nextjs", "shipcli"],
   "license": "MIT",
+  "homepage": "https://github.com/lackim/shipcli#readme",
+  "bugs": {
+    "url": "https://github.com/lackim/shipcli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lackim/shipcli.git",
+    "directory": "packages/landing"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
-    "@shipcli/core": "^0.1.0"
+    "@shipcli/core": "^0.1.2"
   }
 }

@@ -29,8 +29,6 @@ export function generateFormula(options = {}) {
   if (!VALID_REPO.test(repo)) {
     fatal(`Invalid repository: ${repo}`, "Use format: owner/repo");
   }
-  var version = options.version || pkg.version;
-
   phase(`Generating Homebrew formula for ${fmt.app(name)}`);
 
   var desc = escapeRubyString(pkg.description || name);

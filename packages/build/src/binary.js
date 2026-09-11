@@ -1,7 +1,7 @@
 import { execFileSync } from "child_process";
-import { readFileSync, mkdirSync, existsSync } from "fs";
+import { readFileSync, mkdirSync } from "fs";
 import { join } from "path";
-import { phase, status, success, fatal, fmt } from "@shipcli/core/output";
+import { phase, success, fatal, fmt } from "@shipcli/core/output";
 import { spinner } from "@shipcli/core/spinner";
 
 var TARGETS = [
@@ -52,7 +52,7 @@ export function build(options = {}) {
       );
       s.success({ text: `${target.label} → ${fmt.dim(outName)}` });
       built.push({ target: target.name, path: outPath, name: outName });
-    } catch (err) {
+    } catch {
       s.error({ text: `${target.label} — failed` });
     }
   }

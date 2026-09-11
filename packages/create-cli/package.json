@@ -9,6 +9,21 @@
   "files": ["src", "templates"],
   "keywords": ["cli", "scaffold", "create", "shipcli"],
   "license": "MIT",
+  "homepage": "https://github.com/lackim/shipcli#readme",
+  "bugs": {
+    "url": "https://github.com/lackim/shipcli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lackim/shipcli.git",
+    "directory": "packages/create-cli"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "kleur": "^4.1.5"
   }
