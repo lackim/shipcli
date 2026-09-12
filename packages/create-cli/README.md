@@ -1,6 +1,6 @@
 # @shipcli/create
 
-Scaffold a small JavaScript CLI powered by `@shipcli/core`.
+Scaffold a small TypeScript CLI powered by `@shipcli/core`.
 
 ```bash
 npx @shipcli/create my-cli

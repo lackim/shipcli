@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://lackim.github.io/shipcli/"),
   title: "shipcli — Ship a CLI people can actually install",
-  description: "An open-source JavaScript toolkit for building, packaging, publishing, and sharing command-line products.",
+  description: "An open-source TypeScript toolkit for building, packaging, publishing, and sharing command-line products.",
   openGraph: {
     title: "shipcli",
     description: "Build, package, publish, and share command-line products without rebuilding the release pipeline.",

@@ -3,14 +3,20 @@
   "version": "0.2.0",
   "description": "Build and distribution pipeline: npm publish, binaries, homebrew",
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.js",
-    "./npm-publish": "./src/npm-publish.js",
-    "./binary": "./src/binary.js",
-    "./homebrew": "./src/homebrew.js",
-    "./changelog": "./src/changelog.js"
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./npm-publish": { "types": "./dist/npm-publish.d.ts", "import": "./dist/npm-publish.js" },
+    "./binary": { "types": "./dist/binary.d.ts", "import": "./dist/binary.js" },
+    "./homebrew": { "types": "./dist/homebrew.d.ts", "import": "./dist/homebrew.js" },
+    "./changelog": { "types": "./dist/changelog.d.ts", "import": "./dist/changelog.js" }
   },
-  "files": ["src", "CHANGELOG.md"],
+  "files": ["dist", "CHANGELOG.md"],
+  "scripts": {
+    "build": "tsc -b tsconfig.json",
+    "prepack": "pnpm run build"
+  },
   "keywords": ["cli", "build", "publish", "homebrew", "shipcli"],
   "license": "MIT",
   "homepage": "https://github.com/lackim/shipcli#readme",

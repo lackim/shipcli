@@ -1,6 +1,6 @@
 # @shipcli/build
 
-Release and distribution helpers for JavaScript CLI projects.
+Typed release and distribution helpers for TypeScript CLI projects.
 
 ```bash
 npm install @shipcli/build

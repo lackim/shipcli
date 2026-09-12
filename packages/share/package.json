@@ -3,13 +3,19 @@
   "version": "0.2.0",
   "description": "Viral share infrastructure: OG images, share links, terminal recording",
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.js"
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
   },
   "files": [
-    "src",
+    "dist",
     "CHANGELOG.md"
   ],
+  "scripts": {
+    "build": "tsc -b tsconfig.json",
+    "prepack": "pnpm run build"
+  },
   "keywords": [
     "cli",
     "share",

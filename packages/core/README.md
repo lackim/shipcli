@@ -1,12 +1,12 @@
 # @shipcli/core
 
-Core primitives for building JavaScript command-line applications with shipcli.
+Typed primitives for building TypeScript command-line applications with shipcli.
 
 ```bash
 npm install @shipcli/core
 ```
 
-```js
+```ts
 import { createCLI, success } from "@shipcli/core";
 
 const cli = createCLI({

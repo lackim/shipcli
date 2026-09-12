@@ -46,16 +46,19 @@ jobs:
       - name: Run lint
         run: pnpm lint
 
+      - name: Build packages and typecheck
+        run: pnpm typecheck
+
       - name: Run core and build tests
-        run: node --test test/build.test.js test/config.test.js test/landing.test.js test/output.test.js
+        run: node --import tsx --test test/build.test.ts test/config.test.ts test/landing.test.ts test/output.test.ts
 
       - name: Run share tests
         if: ${{ !cancelled() }}
-        run: node --test test/share.test.js
+        run: node --import tsx --test test/share.test.ts
 
       - name: Run CLI smoke tests
         if: ${{ !cancelled() }}
-        run: node --test test/smoke.test.js
+        run: node --import tsx --test test/smoke.test.ts
 
   web:
     name: Website build

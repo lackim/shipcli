@@ -16,6 +16,7 @@ jobs:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
       - run: npm ci
+      - run: npm run typecheck
       - run: npm test
       - run: npm publish --provenance --access public
         env:

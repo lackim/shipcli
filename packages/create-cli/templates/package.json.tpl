@@ -4,20 +4,32 @@
   "description": "{{description}}",
   "type": "module",
   "bin": {
-    "{{name}}": "./src/cli.js"
+    "{{name}}": "./dist/cli.js"
   },
-  "files": ["src"],
+  "files": ["dist"],
   "keywords": ["cli", "{{name}}"],
   "license": "MIT",
+  "shipcli": {
+    "entrypoint": "./src/cli.ts"
+  },
   "scripts": {
-    "start": "node src/cli.js",
-    "test": "node --test"
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsx src/cli.ts",
+    "prepack": "npm run build",
+    "start": "tsx src/cli.ts",
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc -p tsconfig.json"
   },
   "engines": {
     "node": ">=20"
   },
   "dependencies": {
-    "@shipcli/core": "^0.2.0",
-    "@shipcli/share": "^0.2.0"
+    "@shipcli/core": "{{shipcliVersion}}",
+    "@shipcli/share": "{{shipcliVersion}}"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
   }
 }

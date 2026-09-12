@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/build" },
+    { "path": "./packages/share" },
+    { "path": "./packages/landing" },
+    { "path": "./packages/create-cli" },
+    { "path": "./packages/cli" }
+  ]
+}

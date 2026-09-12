@@ -79,14 +79,16 @@ shipcli publish --bump patch`}</Code>
             <P>A scaffolded project looks like this:</P>
             <Code>{`my-cli/
   package.json          # @shipcli/core + @shipcli/share deps
+  tsconfig.json         # Strict TypeScript checks
+  tsconfig.build.json   # Compile source to dist/
   shipcli.config.js     # Tool metadata
   test/                 # Starter test
   .github/workflows/    # CI workflow
   src/
-    cli.js              # createCLI() entry point
-    share-card.js       # --share image template
+    cli.ts              # createCLI() entry point
+    share-card.ts       # --share image template
     commands/
-      index.js          # Main command`}</Code>
+      index.ts          # Main command`}</Code>
             <P>
               Your CLI imports <Mono>@shipcli/core</Mono> at runtime — it{"'"}s a framework,
               not a template. This means you get updates by bumping a dependency version.

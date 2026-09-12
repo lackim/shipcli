@@ -4,9 +4,13 @@
   "description": "CLI-as-a-Product toolkit — build, publish, and promote CLI tools",
   "type": "module",
   "bin": {
-    "shipcli": "./src/cli.js"
+    "shipcli": "./dist/cli.js"
   },
-  "files": ["src", "CHANGELOG.md"],
+  "files": ["dist", "CHANGELOG.md"],
+  "scripts": {
+    "build": "tsc -b tsconfig.json",
+    "prepack": "pnpm run build"
+  },
   "keywords": ["cli", "toolkit", "shipcli"],
   "license": "MIT",
   "homepage": "https://github.com/lackim/shipcli#readme",

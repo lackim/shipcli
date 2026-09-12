@@ -4,9 +4,13 @@
   "description": "Scaffold a new CLI tool powered by shipcli",
   "type": "module",
   "bin": {
-    "create-shipcli": "./src/index.js"
+    "create-shipcli": "./dist/index.js"
   },
-  "files": ["src", "templates", "CHANGELOG.md"],
+  "files": ["dist", "templates", "CHANGELOG.md"],
+  "scripts": {
+    "build": "tsc -b tsconfig.json",
+    "prepack": "pnpm run build"
+  },
   "keywords": ["cli", "scaffold", "create", "shipcli"],
   "license": "MIT",
   "homepage": "https://github.com/lackim/shipcli#readme",

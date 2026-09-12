@@ -26,7 +26,7 @@ export default function Home() {
                 <span className="accent-text">actually install.</span>
               </h1>
               <p className="mt-7 max-w-xl text-lg leading-8 text-neutral-400 sm:text-xl">
-                A JavaScript toolkit for turning command-line ideas into tested,
+                A TypeScript toolkit for turning command-line ideas into tested,
                 packaged, shareable products — without rebuilding the release
                 pipeline every time.
               </p>
@@ -104,9 +104,9 @@ export default function Home() {
             </p>
             <div className="project-tree mt-8" aria-label="Generated project structure">
               <div><span className="tree-folder">my-cli/</span></div>
-              <div>├── src/cli.js</div>
-              <div>├── src/share-card.js</div>
-              <div>├── test/cli.test.js</div>
+              <div>├── src/cli.ts</div>
+              <div>├── src/share-card.ts</div>
+              <div>├── test/cli.test.ts</div>
               <div>└── .github/workflows/ci.yml</div>
             </div>
           </div>

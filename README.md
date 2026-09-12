@@ -7,7 +7,7 @@
 
 ![shipcli — Build. Package. Launch.](web/public/shipcli-social-preview.png)
 
-Build, package, and launch command-line products from one JavaScript toolkit.
+Build, package, and launch command-line products from one TypeScript toolkit.
 
 [Read the documentation](https://lackim.github.io/shipcli/) or start with the
 generator below.
@@ -47,7 +47,7 @@ The generator initializes git and installs dependencies by default. Use
 
 - A Commander-based CLI foundation with consistent output, configuration,
   spinners, error handling, and update checks.
-- A starter generator that produces a small, publishable JavaScript CLI.
+- A starter generator that produces a small, publishable TypeScript CLI.
 - Release helpers for npm, standalone Bun binaries, Homebrew formulae, and
   changelogs.
 - Share-card generation powered by Satori and Resvg.
@@ -81,7 +81,7 @@ Run `shipcli <command> --help` for all options. Before a real release, use
 
 ## Example
 
-```js
+```ts
 #!/usr/bin/env node
 
 import { createCLI } from "@shipcli/core";
@@ -117,7 +117,9 @@ Useful commands:
 
 ```bash
 pnpm test        # Run the Node.js test suite
-pnpm lint        # Check JavaScript sources
+pnpm lint        # Check all source files
+pnpm typecheck   # Build packages and verify TypeScript
+pnpm build       # Build packages and documentation website
 pnpm build:web   # Build the documentation website
 pnpm dev:web     # Run the website locally
 ```

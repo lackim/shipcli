@@ -3,7 +3,7 @@ const STEPS = [
     number: "01",
     title: "Scaffold",
     command: "npx @shipcli/create my-cli",
-    description: "Generate a focused JavaScript CLI with git, tests and CI already in place.",
+    description: "Generate a focused TypeScript CLI with git, tests and CI already in place.",
   },
   {
     number: "02",

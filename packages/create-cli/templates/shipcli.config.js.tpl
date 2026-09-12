@@ -4,7 +4,7 @@ export default {
   share: {
     enabled: {{share}},
     // OG image template configuration
-    // card: "./src/share/card.jsx",
+    // card: "./src/share-card.ts",
   },
   landing: {
     enabled: false,
