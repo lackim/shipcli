@@ -9,7 +9,7 @@
 
 Build, package, and launch command-line products from one TypeScript toolkit.
 
-[Read the documentation](https://lackim.github.io/shipcli/) or start with the
+[Read the documentation](https://lackim.github.io/shipcli/docs) or start with the
 generator below.
 
 > **Project status:** early access (`0.x`). The public API may change between minor
@@ -78,6 +78,9 @@ Run `shipcli <command> --help` for all options. Before a real release, use
 | [`@shipcli/build`](https://www.npmjs.com/package/@shipcli/build) | npm, binary, Homebrew, and changelog helpers |
 | [`@shipcli/share`](https://www.npmjs.com/package/@shipcli/share) | Open Graph image generation |
 | [`@shipcli/landing`](https://www.npmjs.com/package/@shipcli/landing) | Next.js landing-page scaffolding |
+
+The packages are authored in strict TypeScript and published as ESM JavaScript
+with TypeScript declarations and source maps.
 
 ## Example
 

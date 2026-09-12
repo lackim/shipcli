@@ -10,6 +10,8 @@ npm install @shipcli/share
 The package exports `generateOgImage(template, data, options)` for in-memory PNG
 generation and `share(template, data, options)` for writing a PNG to disk. A
 template is a function that returns a Satori-compatible element tree.
+TypeScript consumers can import the `OgImageOptions`, `OgTemplate`,
+`SatoriElement`, and `ShareOptions` types from the package root.
 Inter is bundled as a package dependency, so rendering does not require a font
 download at runtime. Custom Satori fonts can be supplied through `options.fonts`.
 

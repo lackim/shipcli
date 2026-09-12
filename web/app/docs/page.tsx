@@ -60,6 +60,9 @@ export default function Docs() {
               add shareable output, publish to npm, build cross-platform binaries,
               and generate landing pages.
             </P>
+            <P>
+              Node.js 24 or newer is required. Binary builds additionally require Bun.
+            </P>
             <H3>Install</H3>
             <Code>{`npm install -g @shipcli/cli`}</Code>
 
@@ -119,10 +122,12 @@ shipcli publish --access restricted`}</Code>
             <P>Build cross-platform standalone binaries using Bun.</P>
             <Code>{`shipcli build
 shipcli build --targets macos-arm64,linux-x64
-shipcli build --out-dir bin`}</Code>
+shipcli build --out-dir bin
+shipcli build --entrypoint src/cli.ts`}</Code>
             <OptionsTable rows={[
               ["--targets <list>", "Comma-separated: macos-arm64, macos-x64, linux-x64, linux-arm64, windows-x64", "all"],
               ["--out-dir <dir>", "Output directory", "dist"],
+              ["--entrypoint <path>", "TypeScript or JavaScript CLI entry point", "package metadata, bin, or src/cli.ts"],
             ]} />
 
             <H3>shipcli homebrew</H3>
@@ -137,7 +142,13 @@ shipcli homebrew --repo owner/repo --output formula.rb`}</Code>
             <H3>shipcli landing init</H3>
             <P>Scaffold a Next.js landing page with terminal demo, install instructions, and feature showcase.</P>
             <Code>{`shipcli landing init
-shipcli landing init --name my-cli --description "My awesome CLI"`}</Code>
+shipcli landing init --name my-cli --description "My awesome CLI"
+shipcli landing init --force`}</Code>
+            <OptionsTable rows={[
+              ["--name <name>", "Tool name", "package.json name"],
+              ["--description <desc>", "Tool description", "package.json description"],
+              ["--force", "Overwrite files in an existing web directory", "false"],
+            ]} />
           </Section>
 
           {/* createCLI */}
@@ -270,10 +281,14 @@ s.error({ text: "Failed" });`}</Code>
           {/* Share */}
           <Section id="share" title="Share">
             <P>Generate shareable OG images (1200x630 PNG) for social media from your CLI output.</P>
-            <Code>{`import { share } from "@shipcli/share";
+            <Code>{`import { share, type SatoriElement } from "@shipcli/share";
+
+interface ReportData {
+  title: string;
+}
 
 // Template uses Satori h() format
-function myCard(data) {
+function myCard(data: ReportData): SatoriElement {
   return {
     type: "div",
     props: {
@@ -292,6 +307,8 @@ function myCard(data) {
     }
   };
 }
+
+const reportData: ReportData = { title: "Repository health: good" };
 
 await share(myCard, reportData, {
   toolName: "my-cli",
@@ -368,7 +385,7 @@ generateChangelog({ cwd: process.cwd() });
             <P>Generates a <Mono>web/</Mono> directory with:</P>
             <ul className="list-disc list-inside text-neutral-400 mb-4 space-y-1">
               <li>Animated terminal demo component</li>
-              <li>Install instructions with click-to-copy (npm / npx tabs)</li>
+              <li>Click-to-copy installation tabs for npm, Homebrew, and binary downloads</li>
               <li>Feature showcase grid</li>
               <li>{'"'}Built with shipcli{'"'} footer (flywheel)</li>
               <li>Navbar with optional Docs and GitHub links</li>
@@ -388,6 +405,10 @@ generateChangelog({ cwd: process.cwd() });
               ["@shipcli/create", "npx @shipcli/create scaffolding"],
               ["@shipcli/cli", "shipcli CLI orchestrator"],
             ]} />
+            <P>
+              Packages are authored in strict TypeScript and published as ESM JavaScript
+              with TypeScript declarations and source maps.
+            </P>
           </Section>
         </div>
       </div>
