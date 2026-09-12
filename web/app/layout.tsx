@@ -3,11 +3,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://lackim.github.io/shipcli/"),
-  title: "shipcli — CLI-as-a-Product toolkit — build, publish, and promote CLI tools",
-  description: "CLI-as-a-Product toolkit — build, publish, and promote CLI tools",
+  title: "shipcli — Ship a CLI people can actually install",
+  description: "An open-source JavaScript toolkit for building, packaging, publishing, and sharing command-line products.",
   openGraph: {
     title: "shipcli",
-    description: "CLI-as-a-Product toolkit — build, publish, and promote CLI tools",
+    description: "Build, package, publish, and share command-line products without rebuilding the release pipeline.",
     type: "website",
     url: "https://lackim.github.io/shipcli/",
     images: ["https://lackim.github.io/shipcli/shipcli-social-preview.png"],
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "shipcli",
-    description: "CLI-as-a-Product toolkit — build, publish, and promote CLI tools",
+    description: "Build, package, publish, and share command-line products without rebuilding the release pipeline.",
     images: ["https://lackim.github.io/shipcli/shipcli-social-preview.png"],
   },
 };

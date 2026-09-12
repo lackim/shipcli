@@ -1,47 +1,39 @@
-const FEATURES = [
+const STEPS = [
   {
-    title: "Scaffold in Seconds",
-    description: "npx @shipcli/create generates a tested CLI project with git, dependencies, and CI.",
-    icon: "⚡",
+    number: "01",
+    title: "Scaffold",
+    command: "npx @shipcli/create my-cli",
+    description: "Generate a focused JavaScript CLI with git, tests and CI already in place.",
   },
   {
-    title: "Viral Sharing",
-    description: "The generated --share flag creates a ready-to-post PNG without a runtime font download.",
-    icon: "🖼",
+    number: "02",
+    title: "Build",
+    command: "shipcli build",
+    description: "Compile standalone binaries for macOS, Linux and Windows with Bun.",
   },
   {
-    title: "One-Command Publish",
-    description: "Version bump, git tag, and npm publish — all in one command with shipcli publish.",
-    icon: "📦",
+    number: "03",
+    title: "Package",
+    command: "shipcli homebrew",
+    description: "Prepare npm metadata, release notes and a Homebrew formula without glue scripts.",
   },
   {
-    title: "Cross-Platform Binaries",
-    description: "Build standalone executables for macOS, Linux, and Windows with shipcli build.",
-    icon: "🔧",
-  },
-  {
-    title: "Landing Pages",
-    description: "Generate a Next.js landing page with terminal demo and install instructions.",
-    icon: "🌐",
-  },
-  {
-    title: "Homebrew Ready",
-    description: "Auto-generate Homebrew formulas from your package.json with shipcli homebrew.",
-    icon: "🍺",
+    number: "04",
+    title: "Launch",
+    command: "shipcli publish --dry-run",
+    description: "Validate the package, publish deliberately and generate output worth sharing.",
   },
 ];
 
 export function FeatureShowcase() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {FEATURES.map((f) => (
-        <div
-          key={f.title}
-          className="p-6 rounded-xl border border-neutral-800 bg-neutral-900/50 hover:border-neutral-700 transition-colors"
-        >
-          <div className="text-2xl mb-3">{f.icon}</div>
-          <h3 className="font-semibold text-lg mb-1">{f.title}</h3>
-          <p className="text-neutral-400 text-sm">{f.description}</p>
+    <div className="workflow-grid grid gap-px overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-800 md:grid-cols-2 lg:grid-cols-4">
+      {STEPS.map((step) => (
+        <div key={step.title} className="workflow-step bg-neutral-950 p-6 sm:p-7">
+          <div className="step-number">{step.number}</div>
+          <h3 className="mt-8 text-lg font-semibold text-white">{step.title}</h3>
+          <code className="mt-3 block text-xs text-emerald-400">$ {step.command}</code>
+          <p className="mt-4 text-sm leading-6 text-neutral-500">{step.description}</p>
         </div>
       ))}
     </div>

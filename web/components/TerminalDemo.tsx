@@ -1,68 +1,81 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const DEMO_LINES = [
-  { text: "$ npx @shipcli/create my-cli", delay: 0, color: "#e5e5e5" },
-  { text: "", delay: 400 },
-  { text: "==> Scaffolding my-cli", delay: 600, color: "#06b6d4" },
-  { text: "    created package.json", delay: 800, color: "#737373" },
-  { text: "    created src/cli.js", delay: 900, color: "#737373" },
-  { text: "    created src/commands/index.js", delay: 1000, color: "#737373" },
-  { text: "--> Project created!", delay: 1200, color: "#22c55e" },
-  { text: "", delay: 1400 },
-  { text: "$ cd my-cli && node src/cli.js --help", delay: 1600, color: "#e5e5e5" },
-  { text: "", delay: 1900 },
-  { text: "Usage: my-cli [options] [command]", delay: 2100, color: "#737373" },
-  { text: "", delay: 2200 },
-  { text: "Options:", delay: 2400, color: "#06b6d4" },
-  { text: "  --json     Output as JSON", delay: 2500, color: "#737373" },
-  { text: "  --share    Generate shareable output", delay: 2600, color: "#737373" },
-  { text: "  --help     Display help", delay: 2700, color: "#737373" },
-  { text: "", delay: 2800 },
-  { text: "$ shipcli publish --bump minor", delay: 3000, color: "#e5e5e5" },
-  { text: "", delay: 3200 },
-  { text: "==> Publishing my-cli", delay: 3400, color: "#06b6d4" },
-  { text: "    Bumped version: 0.1.0 → 0.2.0", delay: 3600, color: "#737373" },
-  { text: "    Created git tag: v0.2.0", delay: 3800, color: "#737373" },
-  { text: "--> Published to npm!", delay: 4000, color: "#22c55e" },
+  { text: "$ npx @shipcli/create signal-check", tone: "command" },
+  { text: "", tone: "muted" },
+  { text: "==> Creating signal-check", tone: "phase" },
+  { text: "    created package.json", tone: "muted" },
+  { text: "    created src/cli.js", tone: "muted" },
+  { text: "    created test/cli.test.js", tone: "muted" },
+  { text: "    initialized git repository", tone: "muted" },
+  { text: "--> signal-check created", tone: "success" },
+  { text: "", tone: "muted" },
+  { text: "$ cd signal-check && npm test", tone: "command" },
+  { text: "✓ CLI exposes help and version", tone: "success" },
+  { text: "✓ 1 test passed", tone: "success" },
+  { text: "", tone: "muted" },
+  { text: "$ npm start -- github.com/acme/repo --share", tone: "command" },
+  { text: "==> Analyzing github.com/acme/repo", tone: "phase" },
+  { text: "--> Share image saved: signal-check-result.png", tone: "success" },
+  { text: "", tone: "muted" },
+  { text: "$ shipcli build --targets macos-arm64,linux-x64", tone: "command" },
+  { text: "✓ macOS (Apple Silicon)", tone: "success" },
+  { text: "✓ Linux (x64)", tone: "success" },
+  { text: "--> 2 binaries ready in dist/", tone: "success" },
 ];
+
+const TONE_COLORS: Record<string, string> = {
+  command: "#f5f5f5",
+  phase: "#22d3ee",
+  muted: "#737373",
+  success: "#4ade80",
+};
 
 export function TerminalDemo() {
   const [visibleLines, setVisibleLines] = useState(0);
+  const bodyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timers: NodeJS.Timeout[] = [];
-    DEMO_LINES.forEach((line, i) => {
-      timers.push(
-        setTimeout(() => setVisibleLines(i + 1), line.delay + 200)
-      );
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const timer = setTimeout(() => setVisibleLines(DEMO_LINES.length), 0);
+      return () => clearTimeout(timer);
+    }
+
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    DEMO_LINES.forEach((_, index) => {
+      timers.push(setTimeout(() => setVisibleLines(index + 1), 350 + index * 230));
     });
+
     return () => timers.forEach(clearTimeout);
   }, []);
 
+  useEffect(() => {
+    if (!bodyRef.current) return;
+    bodyRef.current.scrollTo({
+      top: bodyRef.current.scrollHeight,
+      behavior: visibleLines > 1 ? "smooth" : "auto",
+    });
+  }, [visibleLines]);
+
   return (
-    <div className="terminal">
+    <div className="terminal" aria-label="Animated shipcli workflow">
       <div className="terminal-header">
         <div className="terminal-dot" style={{ background: "#ff5f57" }} />
         <div className="terminal-dot" style={{ background: "#febc2e" }} />
         <div className="terminal-dot" style={{ background: "#28c840" }} />
-        <span
-          style={{ marginLeft: 12, color: "#737373", fontSize: 12 }}
-        >
-          shipcli
-        </span>
+        <span className="terminal-title">signal-check — zsh</span>
+        <span className="terminal-live"><span /> live</span>
       </div>
-      <div className="terminal-body">
-        {DEMO_LINES.slice(0, visibleLines).map((line, i) => (
-          <div key={i} style={{ color: line.color || "#e5e5e5" }}>
+      <div ref={bodyRef} className="terminal-body" aria-live="polite">
+        {DEMO_LINES.slice(0, visibleLines).map((line, index) => (
+          <div key={index} style={{ color: TONE_COLORS[line.tone] }}>
             {line.text || "\u00A0"}
           </div>
         ))}
         {visibleLines < DEMO_LINES.length && (
-          <span className="animate-pulse" style={{ color: "#06b6d4" }}>
-            ▋
-          </span>
+          <span className="animate-pulse text-cyan-400">▋</span>
         )}
       </div>
     </div>
