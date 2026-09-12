@@ -87,6 +87,7 @@ test("generateFormula uses repository metadata", (t) => {
   assert.match(formula, /class DemoCli < Formula/);
   assert.match(formula, /homepage "https:\/\/github.com\/example\/demo-cli"/);
   assert.match(formula, /license "MIT"/);
+  assert.match(formula, /depends_on "node@24"/);
 });
 
 test("generateChangelog groups conventional commits", (t) => {

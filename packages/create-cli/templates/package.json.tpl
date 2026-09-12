@@ -21,14 +21,14 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "dependencies": {
     "@shipcli/core": "{{shipcliVersion}}",
     "@shipcli/share": "{{shipcliVersion}}"
   },
   "devDependencies": {
-    "@types/node": "^20.19.0",
+    "@types/node": "^24.0.0",
     "tsx": "^4.20.0",
     "typescript": "^5.9.0"
   }

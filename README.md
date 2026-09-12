@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/lackim/shipcli/actions/workflows/ci.yml/badge.svg)](https://github.com/lackim/shipcli/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/@shipcli/cli?label=%40shipcli%2Fcli)](https://www.npmjs.com/package/@shipcli/cli)
-[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D24-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ![shipcli — Build. Package. Launch.](web/public/shipcli-social-preview.png)
@@ -36,8 +36,8 @@ npm install --global @shipcli/cli
 shipcli --help
 ```
 
-Requirements: Node.js 20.9 or newer for this repository. Published CLI packages
-support Node.js 20 or newer. Binary builds additionally require
+Requirements: Node.js 24 or newer for this repository and all published
+packages. Binary builds additionally require
 [Bun](https://bun.sh/).
 
 The generator initializes git and installs dependencies by default. Use

@@ -8,5 +8,5 @@
 ---
 
 Migrate the shipcli packages to strict TypeScript sources, publish compiled ESM
-with declaration files and source maps, and generate TypeScript CLI projects by
-default.
+with declaration files and source maps, generate TypeScript CLI projects by
+default, and move the supported runtime baseline to Node.js 24 LTS.

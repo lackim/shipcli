@@ -12,7 +12,7 @@ well-scoped changes with a clear use case are especially valuable.
 
 ## Local setup
 
-You need Node.js 20.9 or newer and pnpm 10.
+You need Node.js 24 or newer and pnpm 10.
 
 ```bash
 corepack enable

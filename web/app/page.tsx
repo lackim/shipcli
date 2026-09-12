@@ -61,7 +61,7 @@ export default function Home() {
 
           <div className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-neutral-800 bg-neutral-800 sm:grid-cols-4 lg:mt-20">
             {[
-              ["Node.js", "20+"],
+              ["Node.js", "24+ LTS"],
               ["Targets", "macOS · Linux · Windows"],
               ["License", "MIT"],
               ["CI", "Cross-platform"],

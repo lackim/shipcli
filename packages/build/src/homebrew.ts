@@ -54,7 +54,7 @@ export function generateFormula(options: FormulaOptions = {}): FormulaResult {
   url "https://registry.npmjs.org/${pkg.name}/-/${name}-#{version}.tgz"
   license "${license}"
 
-  depends_on "node@20"
+  depends_on "node@24"
 
   def install
     system "npm", "install", *std_npm_args
