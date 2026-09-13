@@ -385,10 +385,10 @@ generateChangelog({ cwd: process.cwd() });
             <P>Generates a <Mono>web/</Mono> directory with:</P>
             <ul className="list-disc list-inside text-neutral-400 mb-4 space-y-1">
               <li>Animated terminal demo component</li>
-              <li>Click-to-copy installation tabs for npm, Homebrew, and binary downloads</li>
+              <li>Click-to-copy installation tabs for npm and npx</li>
               <li>Feature showcase grid</li>
               <li>{'"'}Built with shipcli{'"'} footer (flywheel)</li>
-              <li>Navbar with optional Docs and GitHub links</li>
+              <li>Responsive navigation for workflow, output, and installation sections</li>
               <li>Tailwind CSS + dark mode</li>
               <li>SEO meta tags and Open Graph</li>
             </ul>

@@ -22,7 +22,28 @@ test("scaffoldLanding creates valid metadata and escapes JSX text", (t) => {
 
   const page = readFileSync(join(cwd, "web/app/page.tsx"), "utf-8");
   assert.match(page, /Analyze &lt;code&gt; &amp; "ship"/);
+  assert.match(page, /id="workflow"/);
+  assert.match(page, /Structured output/);
 
   const layout = readFileSync(join(cwd, "web/app/layout.tsx"), "utf-8");
   assert.match(layout, /Analyze <code> & \\"ship\\"/);
+
+  const install = readFileSync(join(cwd, "web/components/InstallInstructions.tsx"), "utf-8");
+  assert.match(install, /npm install --global demo-cli/);
+  assert.match(install, /npx demo-cli --help/);
+  assert.doesNotMatch(install, /curl|brew install/);
+
+  const terminal = readFileSync(join(cwd, "web/components/TerminalDemo.tsx"), "utf-8");
+  assert.match(terminal, /useRef<HTMLDivElement>/);
+  assert.match(terminal, /prefers-reduced-motion/);
+  assert.match(terminal, /scrollTo/);
+
+  const styles = readFileSync(join(cwd, "web/app/globals.css"), "utf-8");
+  assert.match(styles, /\.terminal \{[\s\S]*height: 22rem/);
+  assert.match(styles, /\.terminal-body \{[\s\S]*overflow-y: auto/);
+  assert.match(styles, /@media \(prefers-reduced-motion: reduce\)/);
+
+  const footer = readFileSync(join(cwd, "web/components/ShipcliFooter.tsx"), "utf-8");
+  assert.match(footer, /github\.com\/lackim\/shipcli/);
+  assert.doesNotMatch(footer, /shipcli\.dev/);
 });

@@ -7,6 +7,14 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unreleased]
 
+### Changed
+
+- Migrated package sources and generated CLI projects to strict TypeScript with
+  compiled ESM, declaration files, and source maps.
+- Raised the supported runtime baseline to Node.js 24.
+- Redesigned the public and generated landing pages with a responsive layout,
+  realistic install commands, and a fixed-height scrolling terminal.
+
 ## [0.2.0] - 2026-09-11
 
 ### Changed

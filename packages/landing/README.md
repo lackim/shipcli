@@ -11,7 +11,8 @@ shipcli landing init
 
 For programmatic use, install this package and call `scaffoldLanding(options)`.
 The generated site includes a terminal demo, feature section, installation
-tabs for npm, Homebrew, and binary downloads, and shipcli attribution.
+tabs for npm and npx, structured-output preview, and shipcli attribution.
+The terminal keeps a stable height and scrolls as the animated session grows.
 
 See the [shipcli repository](https://github.com/lackim/shipcli) for full
 documentation.

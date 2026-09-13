@@ -1,21 +1,24 @@
 const LEGAL_LINKS: { label: string; href: string }[] = [
-  // Uncomment when needed:
+  // Add links when your product needs them:
   // { label: "Privacy", href: "/privacy" },
   // { label: "Terms", href: "/terms" },
 ];
 
 export function ShipcliFooter() {
   return (
-    <footer className="border-t border-neutral-800 py-8 mt-20">
-      <div className="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-neutral-500">
-        <span>{{nameText}}</span>
+    <footer className="mt-8 border-t border-neutral-900 py-10">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-6 text-sm text-neutral-600 sm:flex-row">
+        <div>
+          <span className="font-medium text-neutral-400">{{nameText}}</span>
+          <span className="ml-3">{{descriptionText}}</span>
+        </div>
         {LEGAL_LINKS.length > 0 && (
           <div className="flex gap-4">
             {LEGAL_LINKS.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="hover:text-neutral-300 transition-colors"
+                className="transition-colors hover:text-neutral-300"
               >
                 {link.label}
               </a>
@@ -23,12 +26,12 @@ export function ShipcliFooter() {
           </div>
         )}
         <a
-          href="https://shipcli.dev"
+          href="https://github.com/lackim/shipcli"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-neutral-300 transition-colors"
+          className="transition-colors hover:text-neutral-300"
         >
-          Built with <span className="text-cyan-400">shipcli</span>
+          Built with <span className="text-emerald-400">shipcli</span>
         </a>
       </div>
     </footer>

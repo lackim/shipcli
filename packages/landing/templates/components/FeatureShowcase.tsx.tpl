@@ -1,37 +1,39 @@
-const FEATURES = [
+const STEPS = [
   {
-    title: "Fast Analysis",
-    description: "Scans repository data in seconds using the GitHub API.",
-    icon: "⚡",
+    number: "01",
+    title: "Install",
+    command: "npm install -g {{name}}",
+    description: "Add the CLI globally and make it available from any working directory.",
   },
   {
-    title: "Shareable Output",
-    description: "Generate beautiful OG images for X/LinkedIn with --share.",
-    icon: "🖼",
+    number: "02",
+    title: "Explore",
+    command: "{{name}} --help",
+    description: "Discover commands and options through predictable, version-aware help.",
   },
   {
-    title: "JSON Export",
-    description: "Pipe structured data to other tools with --json.",
-    icon: "{}",
+    number: "03",
+    title: "Automate",
+    command: "{{name}} example --json",
+    description: "Use structured output in scripts, pipelines, and continuous integration.",
   },
   {
-    title: "CI Ready",
-    description: "Run in GitHub Actions to monitor project health.",
-    icon: "⚙",
+    number: "04",
+    title: "Share",
+    command: "{{name}} example --share",
+    description: "Turn a useful result into a polished image without leaving the terminal.",
   },
 ];
 
 export function FeatureShowcase() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {FEATURES.map((f) => (
-        <div
-          key={f.title}
-          className="p-6 rounded-xl border border-neutral-800 bg-neutral-900/50 hover:border-neutral-700 transition-colors"
-        >
-          <div className="text-2xl mb-3">{f.icon}</div>
-          <h3 className="font-semibold text-lg mb-1">{f.title}</h3>
-          <p className="text-neutral-400 text-sm">{f.description}</p>
+    <div className="workflow-grid grid gap-px overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-800 md:grid-cols-2 lg:grid-cols-4">
+      {STEPS.map((step) => (
+        <div key={step.title} className="workflow-step bg-neutral-950 p-6 sm:p-7">
+          <div className="step-number">{step.number}</div>
+          <h3 className="mt-8 text-lg font-semibold text-white">{step.title}</h3>
+          <code className="mt-3 block overflow-hidden text-ellipsis text-xs text-emerald-400">$ {step.command}</code>
+          <p className="mt-4 text-sm leading-6 text-neutral-500">{step.description}</p>
         </div>
       ))}
     </div>
