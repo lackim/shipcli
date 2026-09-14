@@ -1,17 +1,24 @@
 {
   "name": "@shipcli/cli",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "CLI-as-a-Product toolkit — build, publish, and promote CLI tools",
   "type": "module",
   "bin": {
     "shipcli": "./dist/cli.js"
   },
-  "files": ["dist", "CHANGELOG.md"],
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "build": "tsc -b tsconfig.json",
     "prepack": "pnpm run build"
   },
-  "keywords": ["cli", "toolkit", "shipcli"],
+  "keywords": [
+    "cli",
+    "toolkit",
+    "shipcli"
+  ],
   "license": "MIT",
   "homepage": "https://github.com/lackim/shipcli#readme",
   "bugs": {

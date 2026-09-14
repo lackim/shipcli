@@ -1,19 +1,31 @@
 {
   "name": "@shipcli/landing",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Next.js landing page template with terminal demo",
   "type": "module",
   "main": "./dist/scaffold.js",
   "types": "./dist/scaffold.d.ts",
   "exports": {
-    ".": { "types": "./dist/scaffold.d.ts", "import": "./dist/scaffold.js" }
+    ".": {
+      "types": "./dist/scaffold.d.ts",
+      "import": "./dist/scaffold.js"
+    }
   },
-  "files": ["dist", "templates", "CHANGELOG.md"],
+  "files": [
+    "dist",
+    "templates",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "build": "tsc -b tsconfig.json",
     "prepack": "pnpm run build"
   },
-  "keywords": ["cli", "landing-page", "nextjs", "shipcli"],
+  "keywords": [
+    "cli",
+    "landing-page",
+    "nextjs",
+    "shipcli"
+  ],
   "license": "MIT",
   "homepage": "https://github.com/lackim/shipcli#readme",
   "bugs": {

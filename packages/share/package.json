@@ -1,12 +1,15 @@
 {
   "name": "@shipcli/share",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Viral share infrastructure: OG images, share links, terminal recording",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
   },
   "files": [
     "dist",
