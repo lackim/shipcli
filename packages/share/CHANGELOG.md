@@ -1,5 +1,18 @@
 # @shipcli/share
 
+## 0.4.0
+
+### Minor Changes
+
+- a07bb8b: Add typed project configuration, safer publishing and binary target validation,
+  more capable scaffolding options, richer package documentation, and stronger
+  package and release verification.
+
+### Patch Changes
+
+- Updated dependencies [a07bb8b]
+  - @shipcli/core@0.4.0
+
 ## 0.3.0
 
 ### Minor Changes
