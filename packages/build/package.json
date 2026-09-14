@@ -1,6 +1,6 @@
 {
   "name": "@shipcli/build",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Build and distribution pipeline: npm publish, binaries, homebrew",
   "type": "module",
   "main": "./dist/index.js",
