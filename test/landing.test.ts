@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import test from "node:test";
 
 import { resolveLandingOutDir, scaffoldLanding } from "../packages/landing/src/scaffold.js";
@@ -58,7 +58,7 @@ test("scaffoldLanding respects a configured output directory", (t) => {
 });
 
 test("landing output directory cannot escape or replace the project root", () => {
-  assert.equal(resolveLandingOutDir("/tmp/project", "site"), join("/tmp/project", "site"));
+  assert.equal(resolveLandingOutDir("/tmp/project", "site"), resolve("/tmp/project", "site"));
   assert.throws(() => resolveLandingOutDir("/tmp/project", "."), /Invalid output directory/);
   assert.throws(() => resolveLandingOutDir("/tmp/project", "../site"), /Invalid output directory/);
 });
