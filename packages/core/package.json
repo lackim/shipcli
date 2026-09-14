@@ -1,24 +1,49 @@
 {
   "name": "@shipcli/core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "CLI framework: output, config, commands",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
-    "./output": { "types": "./dist/output.d.ts", "import": "./dist/output.js" },
-    "./config": { "types": "./dist/config.d.ts", "import": "./dist/config.js" },
-    "./cli": { "types": "./dist/cli.d.ts", "import": "./dist/cli.js" },
-    "./spinner": { "types": "./dist/spinner.d.ts", "import": "./dist/spinner.js" },
-    "./update-check": { "types": "./dist/update-check.d.ts", "import": "./dist/update-check.js" }
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./output": {
+      "types": "./dist/output.d.ts",
+      "import": "./dist/output.js"
+    },
+    "./config": {
+      "types": "./dist/config.d.ts",
+      "import": "./dist/config.js"
+    },
+    "./cli": {
+      "types": "./dist/cli.d.ts",
+      "import": "./dist/cli.js"
+    },
+    "./spinner": {
+      "types": "./dist/spinner.d.ts",
+      "import": "./dist/spinner.js"
+    },
+    "./update-check": {
+      "types": "./dist/update-check.d.ts",
+      "import": "./dist/update-check.js"
+    }
   },
-  "files": ["dist", "CHANGELOG.md"],
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "build": "tsc -b tsconfig.json",
     "prepack": "pnpm run build"
   },
-  "keywords": ["cli", "framework", "shipcli"],
+  "keywords": [
+    "cli",
+    "framework",
+    "shipcli"
+  ],
   "license": "MIT",
   "homepage": "https://github.com/lackim/shipcli#readme",
   "bugs": {

@@ -1,17 +1,26 @@
 {
   "name": "@shipcli/create",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Scaffold a new CLI tool powered by shipcli",
   "type": "module",
   "bin": {
     "create-shipcli": "./dist/index.js"
   },
-  "files": ["dist", "templates", "CHANGELOG.md"],
+  "files": [
+    "dist",
+    "templates",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "build": "tsc -b tsconfig.json",
     "prepack": "pnpm run build"
   },
-  "keywords": ["cli", "scaffold", "create", "shipcli"],
+  "keywords": [
+    "cli",
+    "scaffold",
+    "create",
+    "shipcli"
+  ],
   "license": "MIT",
   "homepage": "https://github.com/lackim/shipcli#readme",
   "bugs": {
