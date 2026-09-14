@@ -6,3 +6,13 @@ export { phase, status, error, fatal, success, hint, fmt, table, box, progressBa
 export { spinner } from "./spinner.js";
 export { checkForUpdate } from "./update-check.js";
 export { setupErrorHandler } from "./error-handler.js";
+export { defineConfig, loadShipcliConfig } from "./project-config.js";
+export type {
+  ShipcliBuildConfig,
+  ShipcliBump,
+  ShipcliLandingConfig,
+  ShipcliPackageAccess,
+  ShipcliProjectConfig,
+  ShipcliPublishConfig,
+  ShipcliShareConfig,
+} from "./project-config.js";

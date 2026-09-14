@@ -8,6 +8,7 @@ const SIDEBAR = [
     items: [
       { label: "Getting Started", href: "#getting-started" },
       { label: "Project Structure", href: "#project-structure" },
+      { label: "Project Config", href: "#project-config" },
       { label: "CLI Commands", href: "#commands" },
     ],
   },
@@ -17,7 +18,7 @@ const SIDEBAR = [
       { label: "createCLI", href: "#create-cli" },
       { label: "Output", href: "#output" },
       { label: "Formatting", href: "#formatting" },
-      { label: "Config", href: "#config" },
+      { label: "User Config", href: "#config" },
       { label: "Spinner", href: "#spinner" },
     ],
   },
@@ -42,12 +43,12 @@ export default function Docs() {
     <main className="min-h-screen">
       <Navbar />
 
-      <div className="flex pt-14">
+      <div className="flex flex-col pt-14 lg:flex-row">
         {/* Sidebar */}
         <DocsSidebar sections={SIDEBAR} />
 
         {/* Content */}
-        <div className="flex-1 min-w-0 max-w-3xl px-8 py-12 lg:ml-64">
+        <div className="flex-1 min-w-0 max-w-3xl px-5 py-10 sm:px-8 sm:py-12 lg:ml-64">
           <h1 className="text-4xl font-bold mb-2">Documentation</h1>
           <p className="text-neutral-400 mb-12">
             Everything you need to build, publish, and promote CLI tools with shipcli.
@@ -84,7 +85,7 @@ shipcli publish --bump patch`}</Code>
   package.json          # @shipcli/core + @shipcli/share deps
   tsconfig.json         # Strict TypeScript checks
   tsconfig.build.json   # Compile source to dist/
-  shipcli.config.js     # Tool metadata
+  shipcli.config.ts     # Typed shipcli defaults
   test/                 # Starter test
   .github/workflows/    # CI workflow
   src/
@@ -98,11 +99,35 @@ shipcli publish --bump patch`}</Code>
             </P>
           </Section>
 
+          {/* Project Configuration */}
+          <Section id="project-config" title="Project Configuration">
+            <P>
+              Keep repeatable defaults in <Mono>shipcli.config.ts</Mono>. Command-line
+              options take precedence, so the same config works locally and in CI.
+            </P>
+            <Code>{`import { defineConfig } from "@shipcli/core";
+
+export default defineConfig({
+  name: "my-cli",
+  description: "A useful command-line tool",
+  build: {
+    entrypoint: "./src/cli.ts",
+    outDir: "dist",
+    targets: ["macos-arm64", "linux-x64"],
+  },
+  publish: { bump: "patch", access: "public" },
+  share: { enabled: true },
+  landing: { outDir: "web" },
+});`}</Code>
+          </Section>
+
           {/* CLI Commands */}
           <Section id="commands" title="CLI Commands">
             <H3>shipcli init [name]</H3>
             <P>Scaffold a new CLI tool. Delegates to <Mono>npx @shipcli/create</Mono>.</P>
-            <Code>{`shipcli init my-cli`}</Code>
+            <Code>{`shipcli init my-cli
+shipcli init my-cli --description "A useful CLI" --no-install
+shipcli init my-cli --no-git`}</Code>
 
             <H3>shipcli publish</H3>
             <P>Version bump, git tag, and npm publish in one command.</P>
@@ -117,6 +142,10 @@ shipcli publish --access restricted`}</Code>
               ["--skip-git", "Skip git commit and tag", "false"],
               ["--access <type>", "npm access level", "public"],
             ]} />
+            <P>
+              A real publish requires a clean git working tree unless <Mono>--skip-git</Mono>
+              is supplied intentionally. Start with <Mono>--dry-run</Mono>.
+            </P>
 
             <H3>shipcli build</H3>
             <P>Build cross-platform standalone binaries using Bun.</P>
@@ -143,10 +172,12 @@ shipcli homebrew --repo owner/repo --output formula.rb`}</Code>
             <P>Scaffold a Next.js landing page with terminal demo, install instructions, and feature showcase.</P>
             <Code>{`shipcli landing init
 shipcli landing init --name my-cli --description "My awesome CLI"
+shipcli landing init --out-dir site
 shipcli landing init --force`}</Code>
             <OptionsTable rows={[
               ["--name <name>", "Tool name", "package.json name"],
               ["--description <desc>", "Tool description", "package.json description"],
+              ["--out-dir <path>", "Generated website directory", "web"],
               ["--force", "Overwrite files in an existing web directory", "false"],
             ]} />
           </Section>
@@ -169,7 +200,7 @@ cli.command("run <target>")
     // your logic
   });
 
-cli.run();`}</Code>
+await cli.run();`}</Code>
             <P>Automatically adds:</P>
             <ul className="list-disc list-inside text-neutral-400 mb-4 space-y-1">
               <li><Mono>--json</Mono> global flag</li>
@@ -408,6 +439,10 @@ generateChangelog({ cwd: process.cwd() });
             <P>
               Packages are authored in strict TypeScript and published as ESM JavaScript
               with TypeScript declarations and source maps.
+            </P>
+            <P>
+              Browse the packages on <a className="text-cyan-400 hover:text-cyan-300" href="https://www.npmjs.com/org/shipcli">npm</a>
+              {" "}or read the <a className="text-cyan-400 hover:text-cyan-300" href="https://github.com/lackim/shipcli/blob/main/CHANGELOG.md">release changelog</a>.
             </P>
           </Section>
         </div>

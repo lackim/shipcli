@@ -11,9 +11,11 @@
     "changeset": "changeset",
     "dev:web": "pnpm --filter shipcli-web dev",
     "lint": "eslint .",
-    "release": "pnpm check && changeset publish",
+    "release": "pnpm check && pnpm test:package && changeset publish",
     "test": "pnpm build:packages && node --import tsx --test test/*.test.ts",
-    "typecheck": "pnpm build:packages && tsc -p tsconfig.test.json --noEmit && pnpm --filter shipcli-web exec tsc --noEmit"
+    "test:package": "pnpm build:packages && node --import tsx scripts/package-smoke.ts",
+    "verify:release": "node --import tsx scripts/verify-release.ts",
+    "typecheck": "pnpm build:packages && tsc -p tsconfig.test.json --noEmit && pnpm --filter shipcli-example-hello typecheck && pnpm --filter shipcli-web exec tsc --noEmit"
   },
   "engines": {
     "node": ">=24.0.0"

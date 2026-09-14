@@ -9,7 +9,7 @@ export interface CreateCLIOptions {
   packageName?: string;
 }
 
-export type ShipCLI = Command & { run(): void };
+export type ShipCLI = Command & { run(): Promise<void> };
 
 export function createCLI({ name, description, version, packageName = name }: CreateCLIOptions): ShipCLI {
   const program = new Command() as ShipCLI;
@@ -27,8 +27,8 @@ export function createCLI({ name, description, version, packageName = name }: Cr
 
   setupErrorHandler(name);
 
-  program.run = () => {
-    program.parse();
+  program.run = async () => {
+    await program.parseAsync();
   };
 
   return program;

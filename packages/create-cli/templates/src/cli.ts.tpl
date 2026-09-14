@@ -24,4 +24,4 @@ cli
   .option("--share", "Generate shareable output")
   .action(run);
 
-cli.run();
+await cli.run();

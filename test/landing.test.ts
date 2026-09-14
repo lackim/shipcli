@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 
-import { scaffoldLanding } from "../packages/landing/src/scaffold.js";
+import { resolveLandingOutDir, scaffoldLanding } from "../packages/landing/src/scaffold.js";
 
 test("scaffoldLanding creates valid metadata and escapes JSX text", (t) => {
   const cwd = mkdtempSync(join(tmpdir(), "shipcli-landing-"));
@@ -46,4 +46,19 @@ test("scaffoldLanding creates valid metadata and escapes JSX text", (t) => {
   const footer = readFileSync(join(cwd, "web/components/ShipcliFooter.tsx"), "utf-8");
   assert.match(footer, /github\.com\/lackim\/shipcli/);
   assert.doesNotMatch(footer, /shipcli\.dev/);
+});
+
+test("scaffoldLanding respects a configured output directory", (t) => {
+  const cwd = mkdtempSync(join(tmpdir(), "shipcli-landing-output-"));
+  t.after(() => rmSync(cwd, { recursive: true, force: true }));
+
+  scaffoldLanding({ cwd, name: "demo-cli", description: "Demo", outDir: "site" });
+
+  assert.equal(readFileSync(join(cwd, "site/package.json"), "utf-8").includes("demo-cli-web"), true);
+});
+
+test("landing output directory cannot escape or replace the project root", () => {
+  assert.equal(resolveLandingOutDir("/tmp/project", "site"), join("/tmp/project", "site"));
+  assert.throws(() => resolveLandingOutDir("/tmp/project", "."), /Invalid output directory/);
+  assert.throws(() => resolveLandingOutDir("/tmp/project", "../site"), /Invalid output directory/);
 });

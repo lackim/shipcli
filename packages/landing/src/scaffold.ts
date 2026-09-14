@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, writeFileSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { join, dirname, relative } from "node:path";
+import { join, dirname, isAbsolute, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { phase, status, success, fatal, fmt } from "@shipcli/core/output";
 
@@ -10,6 +10,7 @@ export interface ScaffoldLandingOptions {
   cwd?: string;
   name?: string;
   description?: string;
+  outDir?: string;
   force?: boolean;
 }
 
@@ -36,9 +37,21 @@ export function scaffoldLanding(options: ScaffoldLandingOptions = {}): void {
 
   if (!name) fatal("No project name specified.");
 
-  const outDir = join(cwd, "web");
+  const relativeOutDir = options.outDir || "web";
+  let outDir: string;
+  try {
+    outDir = resolveLandingOutDir(cwd, relativeOutDir);
+  } catch (cause) {
+    fatal(
+      "The landing page output directory must stay inside the project.",
+      cause instanceof Error ? cause.message : String(cause),
+    );
+  }
   if (existsSync(outDir) && readdirSync(outDir).length > 0 && !options.force) {
-    fatal("The web/ directory is not empty.", "Move it, remove it, or pass --force to overwrite template files.");
+    fatal(
+      `The ${relativeOutDir}/ directory is not empty.`,
+      "Move it, remove it, or pass --force to overwrite template files.",
+    );
   }
 
   phase(`Scaffolding landing page for ${fmt.app(name)}`);
@@ -46,13 +59,28 @@ export function scaffoldLanding(options: ScaffoldLandingOptions = {}): void {
   mkdirSync(outDir, { recursive: true });
   processDir(TEMPLATES_DIR, outDir, { name, description }, outDir);
 
-  success(`Landing page created in ${fmt.url("web/")}`);
+  success(`Landing page created in ${fmt.url(relativeOutDir + "/")}`);
   status("");
   status(`${fmt.dim("Next steps:")}`);
-  status(`cd web`);
+  status(`cd ${relativeOutDir}`);
   status(`npm install`);
   status(`npm run dev`);
   status("");
+}
+
+export function resolveLandingOutDir(cwd: string, outDir: string): string {
+  const root = resolve(cwd);
+  const target = resolve(root, outDir);
+  const relativePath = relative(root, target);
+  if (
+    relativePath.length === 0
+    || relativePath === ".."
+    || relativePath.startsWith(`..${sep}`)
+    || isAbsolute(relativePath)
+  ) {
+    throw new Error(`Invalid output directory: ${outDir}`);
+  }
+  return target;
 }
 
 function escapeTemplateString(value: unknown): string {

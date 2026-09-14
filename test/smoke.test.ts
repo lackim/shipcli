@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -7,6 +7,7 @@ import test from "node:test";
 import type { TestContext } from "node:test";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
+import { createInitArgs } from "../packages/cli/src/init.js";
 
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));
 const require = createRequire(import.meta.url);
@@ -26,6 +27,17 @@ test("shipcli reports the package version", () => {
 
   assert.equal(result.status, 0, result.stderr);
   assert.equal(result.stdout.trim(), cliVersion);
+});
+
+test("shipcli init forwards generator options", () => {
+  assert.deepEqual(
+    createInitArgs("demo-cli", {
+      description: "Demo CLI",
+      git: false,
+      install: false,
+    }),
+    ["@shipcli/create", "demo-cli", "--description", "Demo CLI", "--no-git", "--no-install"],
+  );
 });
 
 test("create package scaffolds a valid project without overwriting files", (t: TestContext) => {
@@ -56,6 +68,8 @@ test("create package scaffolds a valid project without overwriting files", (t: T
   assert.equal(generated.dependencies["@shipcli/share"], `^${createVersion}`);
 
   assert.equal(existsSync(join(cwd, "demo-cli/src/share-card.ts")), true);
+  assert.equal(existsSync(join(cwd, "demo-cli/shipcli.config.ts")), true);
+  assert.equal(existsSync(join(cwd, "demo-cli/shipcli.config.js")), false);
   assert.equal(existsSync(join(cwd, "demo-cli/tsconfig.json")), true);
   assert.equal(existsSync(join(cwd, "demo-cli/tsconfig.build.json")), true);
 
@@ -118,4 +132,19 @@ test("generated CLI runs and creates a share image", (t: TestContext) => {
   assert.equal(output.status, "ok");
   assert.equal(basename(output.shareImage), "demo-cli-result.png");
   assert.equal(existsSync(output.shareImage), true);
+
+  const configPath = join(project, "shipcli.config.ts");
+  const config = readFileSync(configPath, "utf-8").replace("enabled: true", "enabled: false");
+  writeFileSync(configPath, config);
+  const disabledShare = spawnSync(
+    process.execPath,
+    ["dist/cli.js", "example", "--share", "--json"],
+    {
+      cwd: project,
+      encoding: "utf-8",
+      env: { ...process.env, SHIPCLI_DISABLE_UPDATE_CHECK: "1" },
+    },
+  );
+  assert.equal(disabledShare.status, 0, disabledShare.stderr);
+  assert.equal("shareImage" in JSON.parse(disabledShare.stdout), false);
 });

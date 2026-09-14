@@ -6,7 +6,7 @@ import { join } from "node:path";
 import test from "node:test";
 import type { TestContext } from "node:test";
 
-import { build } from "../packages/build/src/binary.js";
+import { build, selectTargets } from "../packages/build/src/binary.js";
 import { generateChangelog } from "../packages/build/src/changelog.js";
 import { generateFormula } from "../packages/build/src/homebrew.js";
 import { bumpVersion, publish } from "../packages/build/src/npm-publish.js";
@@ -77,6 +77,15 @@ test("build invokes Bun with the requested target", (t) => {
   assert.deepEqual(calls[0], ["bun", ["--version"]]);
   assert.equal(calls[1][0], "bun");
   assert.deepEqual(calls[1][1].slice(0, 4), ["build", "./src/cli.ts", "--compile", "--target=bun-linux-x64"]);
+});
+
+test("selectTargets rejects unsupported targets instead of silently skipping them", () => {
+  assert.deepEqual(selectTargets(["linux-x64"]).map((target) => target.name), ["linux-x64"]);
+  assert.throws(() => selectTargets(["", "  "]), /At least one binary target/);
+  assert.throws(
+    () => selectTargets(["linux-x64", "plan9-x64"]),
+    /Unknown binary target: plan9-x64/,
+  );
 });
 
 test("generateFormula uses repository metadata", (t) => {

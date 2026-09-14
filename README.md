@@ -68,6 +68,33 @@ Run `shipcli <command> --help` for all options. Before a real release, use
 `shipcli publish --dry-run`; it performs npm's package check without modifying
 `package.json`, commits, or tags.
 
+`shipcli init` accepts `--description`, `--no-git`, and `--no-install`.
+`shipcli landing init` accepts `--out-dir` when the default `web/` directory is
+not appropriate.
+
+## Project configuration
+
+Generated projects include a typed `shipcli.config.ts`. It keeps repeatable
+defaults in the repository while explicit command-line options remain the final
+override.
+
+```ts
+import { defineConfig } from "@shipcli/core";
+
+export default defineConfig({
+  name: "my-cli",
+  description: "A useful command-line tool",
+  build: {
+    entrypoint: "./src/cli.ts",
+    outDir: "dist",
+    targets: ["macos-arm64", "linux-x64"],
+  },
+  publish: { access: "public", bump: "patch" },
+  share: { enabled: true },
+  landing: { outDir: "web" },
+});
+```
+
 ## Packages
 
 | Package | Purpose |
@@ -101,12 +128,15 @@ cli
   .argument("[name]", "Name to greet", "world")
   .action((name) => success(`Hello, ${name}!`));
 
-cli.run();
+await cli.run();
 ```
 
 ## Development
 
 This repository is a pnpm monorepo.
+
+For a compact, runnable reference project, see
+[`examples/hello-cli`](examples/hello-cli).
 
 ```bash
 git clone https://github.com/lackim/shipcli.git
