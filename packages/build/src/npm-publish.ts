@@ -36,12 +36,46 @@ export function publish(options: PublishOptions = {}): PublishResult {
     fatal("No package.json found.", "Run this command from a CLI project root.");
   }
 
+  if (typeof pkg.name !== "string" || pkg.name.length === 0) {
+    fatal("package.json does not contain a valid package name.");
+  }
+  if (typeof pkg.version !== "string" || pkg.version.length === 0) {
+    fatal("package.json does not contain a valid package version.");
+  }
+
   const currentVersion = pkg.version;
   const bump = options.bump || "patch";
   const access = options.access || "public";
 
   if (!VALID_ACCESS.has(access)) {
     fatal(`Invalid access level: ${access}`, "Use 'public' or 'restricted'.");
+  }
+
+  if (!options.dryRun && !options.skipGit) {
+    try {
+      const output = run("git", ["status", "--porcelain"], {
+        cwd,
+        encoding: "utf-8",
+        stdio: "pipe",
+      });
+      const statusOutput = typeof output === "string"
+        ? output
+        : Buffer.isBuffer(output)
+          ? output.toString("utf-8")
+          : "";
+      if (statusOutput.trim()) {
+        fatal(
+          "The git working tree is not clean.",
+          "Commit or stash your changes before publishing, or use --skip-git intentionally.",
+        );
+      }
+    } catch (cause) {
+      if (cause instanceof Error && cause.message === "The git working tree is not clean.") throw cause;
+      fatal(
+        "Could not verify the git working tree.",
+        "Run from a git repository or use --skip-git intentionally.",
+      );
+    }
   }
 
   phase(`Publishing ${fmt.app(pkg.name)}`);

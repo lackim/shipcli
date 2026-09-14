@@ -9,9 +9,6 @@
   "files": ["dist"],
   "keywords": ["cli", "{{name}}"],
   "license": "MIT",
-  "shipcli": {
-    "entrypoint": "./src/cli.ts"
-  },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "dev": "tsx src/cli.ts",

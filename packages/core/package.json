@@ -29,6 +29,10 @@
     "./update-check": {
       "types": "./dist/update-check.d.ts",
       "import": "./dist/update-check.js"
+    },
+    "./project-config": {
+      "types": "./dist/project-config.d.ts",
+      "import": "./dist/project-config.js"
     }
   },
   "files": [

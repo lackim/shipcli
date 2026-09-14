@@ -10,14 +10,14 @@ body:
     id: package
     attributes:
       label: Affected package and version
-      placeholder: "@shipcli/core 0.1.2"
+      placeholder: "@shipcli/core 0.3.0"
     validations:
       required: true
   - type: input
     id: environment
     attributes:
       label: Environment
-      placeholder: "Node 20.19, pnpm 10, macOS 15"
+      placeholder: "Node 24, pnpm 10, macOS 15"
     validations:
       required: true
   - type: textarea

@@ -33,6 +33,19 @@ export const TARGETS: readonly BinaryTarget[] = [
   { name: "windows-x64", bun: "bun-windows-x64", label: "Windows (x64)" },
 ];
 
+export function selectTargets(names: readonly string[]): BinaryTarget[] {
+  const normalized = names.map((name) => name.trim()).filter(Boolean);
+  if (normalized.length === 0) {
+    throw new Error("At least one binary target is required.");
+  }
+  const unknown = normalized.filter((name) => !TARGETS.some((target) => target.name === name));
+  if (unknown.length > 0) {
+    const supported = TARGETS.map((target) => target.name).join(", ");
+    throw new Error(`Unknown binary target${unknown.length > 1 ? "s" : ""}: ${unknown.join(", ")}. Supported targets: ${supported}.`);
+  }
+  return TARGETS.filter((target) => normalized.includes(target.name));
+}
+
 export function build(options: BuildOptions = {}): BuiltBinary[] {
   const cwd = options.cwd || process.cwd();
   const run = options.execFile || (execFileSync as ExecFileRunner);
@@ -64,6 +77,7 @@ export function build(options: BuildOptions = {}): BuiltBinary[] {
   mkdirSync(outDir, { recursive: true });
 
   const built: BuiltBinary[] = [];
+  const failed: string[] = [];
   for (const target of targets) {
     const outName = `${pkg.name}-${target.name}${target.name.includes("windows") ? ".exe" : ""}`;
     const outPath = join(outDir, outName);
@@ -79,14 +93,18 @@ export function build(options: BuildOptions = {}): BuiltBinary[] {
       built.push({ target: target.name, path: outPath, name: outName });
     } catch {
       s.error({ text: `${target.label} — failed` });
+      failed.push(target.name);
     }
   }
 
-  if (built.length > 0) {
-    success(`${built.length} binaries built in ${fmt.url(outDir)}`);
-  } else {
-    fatal("No binaries were built successfully.");
+  if (failed.length > 0) {
+    fatal(
+      `Failed to build ${failed.length} requested target${failed.length > 1 ? "s" : ""}.`,
+      failed.join(", "),
+    );
   }
+
+  success(`${built.length} binaries built in ${fmt.url(outDir)}`);
 
   return built;
 }

@@ -60,6 +60,10 @@ jobs:
         if: ${{ !cancelled() }}
         run: node --import tsx --test test/smoke.test.ts
 
+      - name: Verify published package contents
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.node-version == 24 }}
+        run: pnpm test:package
+
   web:
     name: Website build
     runs-on: ubuntu-latest
