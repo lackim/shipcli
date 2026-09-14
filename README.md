@@ -167,4 +167,4 @@ issues should follow the private process in [SECURITY.md](SECURITY.md).
 
 ## License
 
-[MIT](LICENSE) © lackim
+Released under the [MIT License](LICENSE).
