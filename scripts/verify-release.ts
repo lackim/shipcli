@@ -12,6 +12,22 @@ interface RegistryDocument {
   versions?: Record<string, { dist?: { attestations?: { provenance?: unknown } } }>;
 }
 
+function readPositiveInteger(name: string, fallback: number): number {
+  const value = process.env[name];
+  if (value === undefined) return fallback;
+
+  const parsed = Number.parseInt(value, 10);
+  if (!Number.isInteger(parsed) || parsed <= 0) {
+    throw new Error(`${name} must be a positive integer`);
+  }
+
+  return parsed;
+}
+
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
 const repoRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const packageDirectories = ["build", "cli", "core", "create-cli", "landing", "share"];
 const packages: PackageVersion[] = packageDirectories.map((directory) => {
@@ -20,34 +36,50 @@ const packages: PackageVersion[] = packageDirectories.map((directory) => {
   ) as PackageVersion;
 });
 
-const maxAttempts = 18;
-const retryDelayMs = 10_000;
+// npm registry metadata can take several minutes to converge after a successful
+// publish. Keep the verification strict, but allow enough time for propagation.
+const maxAttempts = readPositiveInteger("VERIFY_RELEASE_MAX_ATTEMPTS", 60);
+const retryDelayMs = readPositiveInteger("VERIFY_RELEASE_RETRY_DELAY_MS", 10_000);
 
-for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-  const pending: string[] = [];
-
-  await Promise.all(packages.map(async (pkg) => {
+async function verifyPackage(pkg: PackageVersion): Promise<string | null> {
+  try {
     const response = await fetch(`https://registry.npmjs.org/${encodeURIComponent(pkg.name)}`, {
-      headers: { "cache-control": "no-cache" },
+      cache: "no-store",
+      headers: {
+        "cache-control": "no-cache, no-store",
+        pragma: "no-cache",
+      },
+      signal: AbortSignal.timeout(15_000),
     });
     if (!response.ok) {
-      pending.push(`${pkg.name} (registry returned ${response.status})`);
-      return;
+      return `${pkg.name} (registry returned ${response.status})`;
     }
 
     const metadata = await response.json() as RegistryDocument;
     const release = metadata.versions?.[pkg.version];
-    if (!release || metadata["dist-tags"]?.latest !== pkg.version) {
-      pending.push(`${pkg.name}@${pkg.version}`);
-      return;
+    if (!release) {
+      return `${pkg.name}@${pkg.version} (version not visible)`;
     }
+
+    const latest = metadata["dist-tags"]?.latest;
+    if (latest !== pkg.version) {
+      return `${pkg.name}@${pkg.version} (latest is ${latest ?? "missing"})`;
+    }
+
     if (!release.dist?.attestations?.provenance) {
-      pending.push(`${pkg.name}@${pkg.version} (missing provenance)`);
-      return;
+      return `${pkg.name}@${pkg.version} (missing provenance)`;
     }
 
     console.log(`verified ${pkg.name}@${pkg.version}`);
-  }));
+    return null;
+  } catch (error) {
+    return `${pkg.name}@${pkg.version} (${errorMessage(error)})`;
+  }
+}
+
+for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+  const results = await Promise.all(packages.map(verifyPackage));
+  const pending = results.filter((result): result is string => result !== null).sort();
 
   if (pending.length === 0) process.exit(0);
   if (attempt === maxAttempts) {
