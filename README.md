@@ -1,6 +1,7 @@
 # shipcli
 
 [![CI](https://github.com/lackim/shipcli/actions/workflows/ci.yml/badge.svg)](https://github.com/lackim/shipcli/actions/workflows/ci.yml)
+[![Website](https://img.shields.io/badge/Website-visit-6366f1?logo=githubpages&logoColor=white)](https://lackim.github.io/shipcli/)
 [![npm](https://img.shields.io/npm/v/@shipcli/cli?label=%40shipcli%2Fcli)](https://www.npmjs.com/package/@shipcli/cli)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D24-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
