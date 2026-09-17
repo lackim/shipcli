@@ -1,5 +1,11 @@
 # @shipcli/core
 
+## 0.4.1
+
+### Patch Changes
+
+- b764701: Only show update notifications when the registry version is newer than the installed version, including correct SemVer prerelease handling.
+
 ## 0.4.0
 
 ### Minor Changes

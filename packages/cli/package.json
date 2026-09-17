@@ -1,6 +1,6 @@
 {
   "name": "@shipcli/cli",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "CLI-as-a-Product toolkit — build, publish, and promote CLI tools",
   "type": "module",
   "bin": {
