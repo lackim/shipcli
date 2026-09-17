@@ -4,7 +4,11 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import test from "node:test";
 
-import { resolveLandingOutDir, scaffoldLanding } from "../packages/landing/src/scaffold.js";
+import {
+  normalizeRepositoryUrl,
+  resolveLandingOutDir,
+  scaffoldLanding,
+} from "../packages/landing/src/scaffold.js";
 
 test("scaffoldLanding creates valid metadata and escapes JSX text", (t) => {
   const cwd = mkdtempSync(join(tmpdir(), "shipcli-landing-"));
@@ -12,7 +16,11 @@ test("scaffoldLanding creates valid metadata and escapes JSX text", (t) => {
 
   writeFileSync(
     join(cwd, "package.json"),
-    JSON.stringify({ name: "demo-cli", description: 'Analyze <code> & "ship"' })
+    JSON.stringify({
+      name: "demo-cli",
+      description: 'Analyze <code> & "ship"',
+      repository: { url: "git+https://github.com/example/demo-cli.git" },
+    })
   );
 
   scaffoldLanding({ cwd });
@@ -45,7 +53,18 @@ test("scaffoldLanding creates valid metadata and escapes JSX text", (t) => {
 
   const footer = readFileSync(join(cwd, "web/components/ShipcliFooter.tsx"), "utf-8");
   assert.match(footer, /github\.com\/lackim\/shipcli/);
+  assert.match(footer, /href: "\/privacy"/);
+  assert.match(footer, /href: "\/terms"/);
+  assert.match(footer, /import Link from "next\/link"/);
   assert.doesNotMatch(footer, /shipcli\.dev/);
+
+  const privacy = readFileSync(join(cwd, "web/app/privacy/page.tsx"), "utf-8");
+  assert.match(privacy, /does not use[\s\S]*analytics/);
+  assert.match(privacy, /https:\/\/github\.com\/example\/demo-cli/);
+
+  const terms = readFileSync(join(cwd, "web/app/terms/page.tsx"), "utf-8");
+  assert.match(terms, /Software license/);
+  assert.match(terms, /provided on an &quot;as is&quot;/);
 });
 
 test("scaffoldLanding respects a configured output directory", (t) => {
@@ -61,4 +80,17 @@ test("landing output directory cannot escape or replace the project root", () =>
   assert.equal(resolveLandingOutDir("/tmp/project", "site"), resolve("/tmp/project", "site"));
   assert.throws(() => resolveLandingOutDir("/tmp/project", "."), /Invalid output directory/);
   assert.throws(() => resolveLandingOutDir("/tmp/project", "../site"), /Invalid output directory/);
+});
+
+test("repository URLs are normalized for generated legal contact links", () => {
+  assert.equal(
+    normalizeRepositoryUrl("git+https://github.com/example/demo.git"),
+    "https://github.com/example/demo",
+  );
+  assert.equal(
+    normalizeRepositoryUrl("git@github.com:example/demo.git"),
+    "https://github.com/example/demo",
+  );
+  assert.equal(normalizeRepositoryUrl({ url: "https://example.com/repo.git" }), "https://example.com/repo");
+  assert.equal(normalizeRepositoryUrl(undefined), "");
 });

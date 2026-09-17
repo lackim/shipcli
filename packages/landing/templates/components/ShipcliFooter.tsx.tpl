@@ -1,7 +1,8 @@
+import Link from "next/link";
+
 const LEGAL_LINKS: { label: string; href: string }[] = [
-  // Add links when your product needs them:
-  // { label: "Privacy", href: "/privacy" },
-  // { label: "Terms", href: "/terms" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
 ];
 
 export function ShipcliFooter() {
@@ -15,13 +16,13 @@ export function ShipcliFooter() {
         {LEGAL_LINKS.length > 0 && (
           <div className="flex gap-4">
             {LEGAL_LINKS.map((link) => (
-              <a
+              <Link
                 key={link.label}
                 href={link.href}
                 className="transition-colors hover:text-neutral-300"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </div>
         )}

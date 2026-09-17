@@ -17,20 +17,27 @@ export interface ScaffoldLandingOptions {
 interface TemplateVariables {
   name: string;
   description: string;
+  repositoryUrl: string;
 }
 
 export function scaffoldLanding(options: ScaffoldLandingOptions = {}): void {
   const cwd = options.cwd || process.cwd();
   let name = options.name;
   let description = options.description || "A CLI tool built with shipcli";
+  let repositoryUrl = "";
 
-  if (!name) {
-    // Try to read from package.json
-    try {
-      const pkg = JSON.parse(readFileSync(join(cwd, "package.json"), "utf-8"));
-      name = pkg.name;
-      description = pkg.description || description;
-    } catch {
+  try {
+    const pkg: unknown = JSON.parse(readFileSync(join(cwd, "package.json"), "utf-8"));
+    if (pkg && typeof pkg === "object" && !Array.isArray(pkg)) {
+      const metadata = pkg as Record<string, unknown>;
+      if (!name && typeof metadata.name === "string") name = metadata.name;
+      if (!options.description && typeof metadata.description === "string") {
+        description = metadata.description;
+      }
+      repositoryUrl = normalizeRepositoryUrl(metadata.repository);
+    }
+  } catch {
+    if (!name) {
       fatal("No project name specified.", "Run from a CLI project root or pass --name.");
     }
   }
@@ -57,7 +64,7 @@ export function scaffoldLanding(options: ScaffoldLandingOptions = {}): void {
   phase(`Scaffolding landing page for ${fmt.app(name)}`);
 
   mkdirSync(outDir, { recursive: true });
-  processDir(TEMPLATES_DIR, outDir, { name, description }, outDir);
+  processDir(TEMPLATES_DIR, outDir, { name, description, repositoryUrl }, outDir);
 
   success(`Landing page created in ${fmt.url(relativeOutDir + "/")}`);
   status("");
@@ -66,6 +73,21 @@ export function scaffoldLanding(options: ScaffoldLandingOptions = {}): void {
   status(`npm install`);
   status(`npm run dev`);
   status("");
+}
+
+export function normalizeRepositoryUrl(repository: unknown): string {
+  const raw = typeof repository === "string"
+    ? repository
+    : repository && typeof repository === "object" && !Array.isArray(repository)
+      && typeof (repository as Record<string, unknown>).url === "string"
+      ? (repository as Record<string, string>).url
+      : "";
+
+  return raw
+    .replace(/^git\+/, "")
+    .replace(/^git:\/\/github\.com\//, "https://github.com/")
+    .replace(/^git@github\.com:/, "https://github.com/")
+    .replace(/\.git$/, "");
 }
 
 export function resolveLandingOutDir(cwd: string, outDir: string): string {
@@ -120,6 +142,7 @@ function processDir(
     content = content
       .replace(/\{\{nameText\}\}/g, escapeJsxText(vars.name))
       .replace(/\{\{descriptionText\}\}/g, escapeJsxText(vars.description))
+      .replace(/\{\{repositoryUrl\}\}/g, escapeTemplateString(vars.repositoryUrl))
       .replace(/\{\{name\}\}/g, escapeTemplateString(vars.name))
       .replace(/\{\{description\}\}/g, escapeTemplateString(vars.description));
 
