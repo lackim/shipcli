@@ -1,5 +1,12 @@
 # @shipcli/share
 
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [b764701]
+  - @shipcli/core@0.4.1
+
 ## 0.4.0
 
 ### Minor Changes
