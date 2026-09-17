@@ -1,5 +1,15 @@
 # @shipcli/landing
 
+## 0.5.0
+
+### Minor Changes
+
+- cee344e: Generate basic privacy and website-terms pages with footer links for new landing pages. The privacy-friendly default does not include a cookie banner or optional tracking.
+
+### Patch Changes
+
+- @shipcli/core@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes

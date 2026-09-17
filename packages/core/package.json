@@ -1,6 +1,6 @@
 {
   "name": "@shipcli/core",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "CLI framework: output, config, commands",
   "type": "module",
   "main": "./dist/index.js",
