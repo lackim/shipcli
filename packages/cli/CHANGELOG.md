@@ -1,5 +1,15 @@
 # @shipcli/cli
 
+## 0.5.0
+
+### Patch Changes
+
+- Updated dependencies [cee344e]
+  - @shipcli/landing@0.5.0
+  - @shipcli/build@0.5.0
+  - @shipcli/core@0.5.0
+  - @shipcli/share@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes
