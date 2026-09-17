@@ -18,7 +18,7 @@ export default function Home() {
                 <span className="status-dot" />
                 Command-line product
               </div>
-              <h1 className="max-w-xl break-words text-5xl font-semibold tracking-[-0.045em] text-white sm:text-6xl lg:text-7xl">
+              <h1 className="max-w-xl break-words text-5xl font-semibold leading-[1.08] tracking-[-0.045em] text-white sm:text-6xl sm:leading-[1.06] lg:text-7xl">
                 Meet <span className="accent-text">{{nameText}}</span>.
               </h1>
               <p className="mt-7 max-w-xl text-lg leading-8 text-neutral-400 sm:text-xl">

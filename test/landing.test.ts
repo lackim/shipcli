@@ -32,6 +32,7 @@ test("scaffoldLanding creates valid metadata and escapes JSX text", (t) => {
   assert.match(page, /Analyze &lt;code&gt; &amp; "ship"/);
   assert.match(page, /id="workflow"/);
   assert.match(page, /Structured output/);
+  assert.match(page, /leading-\[1\.08\]/);
 
   const layout = readFileSync(join(cwd, "web/app/layout.tsx"), "utf-8");
   assert.match(layout, /Analyze <code> & \\"ship\\"/);
