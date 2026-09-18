@@ -1,5 +1,12 @@
 # @shipcli/landing
 
+## 0.5.1
+
+### Patch Changes
+
+- b3875a5: Increase the generated hero heading line height so gradient text descenders are not clipped on narrow screens.
+  - @shipcli/core@0.5.1
+
 ## 0.5.0
 
 ### Minor Changes
