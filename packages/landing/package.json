@@ -1,6 +1,6 @@
 {
   "name": "@shipcli/landing",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Next.js landing page template with terminal demo",
   "type": "module",
   "main": "./dist/scaffold.js",
