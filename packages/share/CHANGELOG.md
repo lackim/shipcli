@@ -1,5 +1,11 @@
 # @shipcli/share
 
+## 0.5.1
+
+### Patch Changes
+
+- @shipcli/core@0.5.1
+
 ## 0.5.0
 
 ### Patch Changes
