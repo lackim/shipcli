@@ -34,7 +34,7 @@ jobs:
       - uses: changesets/action@v2
         id: changesets
         with:
-          publish: pnpm release
+          publish-script: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Verify published versions and provenance
