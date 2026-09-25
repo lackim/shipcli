@@ -1,6 +1,6 @@
 {
   "name": "@shipcli/create",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Scaffold a new CLI tool powered by shipcli",
   "type": "module",
   "bin": {

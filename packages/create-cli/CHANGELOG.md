@@ -1,5 +1,11 @@
 # @shipcli/create
 
+## 0.5.2
+
+### Patch Changes
+
+- 324ca1c: Harden generated Homebrew formulas, landing output paths, repository links, and npm release workflows against untrusted metadata and dependency-chain risks.
+
 ## 0.5.1
 
 ## 0.5.0
