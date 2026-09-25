@@ -15,11 +15,20 @@ export interface FormulaResult {
   name: string;
 }
 
-function escapeRubyString(str: string): string {
-  return str.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+const VALID_REPO = /^[a-zA-Z0-9._-]+\/[a-zA-Z0-9._-]+$/;
+const VALID_PACKAGE_NAME = /^(?:@[a-z0-9][a-z0-9._-]*\/)?[a-z0-9][a-z0-9._-]*$/;
+const VALID_VERSION = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?$/;
+
+export function isValidFormulaPackageName(value: string): boolean {
+  return VALID_PACKAGE_NAME.test(value);
 }
 
-const VALID_REPO = /^[a-zA-Z0-9._-]+\/[a-zA-Z0-9._-]+$/;
+function rubyStringLiteral(value: string): string {
+  // Single-quoted Ruby strings do not evaluate #{...}. Normalize control
+  // characters as well so package metadata cannot inject additional code.
+  const sanitized = value.replace(/[\u0000-\u001f\u007f-\u009f]/g, " ");
+  return `'${sanitized.replace(/\\/g, "\\\\").replace(/'/g, "\\'")}'`;
+}
 
 export function generateFormula(options: FormulaOptions = {}): FormulaResult {
   const cwd = options.cwd || process.cwd();
@@ -32,9 +41,16 @@ export function generateFormula(options: FormulaOptions = {}): FormulaResult {
     fatal("No package.json found.", "Run this command from a CLI project root.");
   }
 
+  if (!isValidFormulaPackageName(pkg.name)) {
+    fatal(`Invalid package name: ${pkg.name}`, "Use a valid lowercase npm package name.");
+  }
+  if (!VALID_VERSION.test(pkg.version)) {
+    fatal(`Invalid package version: ${pkg.version}`, "Use a stable semantic version.");
+  }
+
   const name = pkg.name.replace(/^@[^/]+\//, ""); // strip scope
   const className = name
-    .split(/[-_]/)
+    .split(/[-_.]/)
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join("");
 
@@ -45,14 +61,18 @@ export function generateFormula(options: FormulaOptions = {}): FormulaResult {
   }
   phase(`Generating Homebrew formula for ${fmt.app(name)}`);
 
-  const desc = escapeRubyString(pkg.description || name);
-  const license = escapeRubyString(pkg.license || "MIT");
+  const desc = rubyStringLiteral(pkg.description || name);
+  const homepage = rubyStringLiteral(`https://github.com/${repo}`);
+  const tarballUrl = rubyStringLiteral(
+    `https://registry.npmjs.org/${pkg.name}/-/${name}-${pkg.version}.tgz`,
+  );
+  const license = rubyStringLiteral(pkg.license || "MIT");
 
   const formula = `class ${className} < Formula
-  desc "${desc}"
-  homepage "https://github.com/${repo}"
-  url "https://registry.npmjs.org/${pkg.name}/-/${name}-#{version}.tgz"
-  license "${license}"
+  desc ${desc}
+  homepage ${homepage}
+  url ${tarballUrl}
+  license ${license}
 
   depends_on "node@24"
 

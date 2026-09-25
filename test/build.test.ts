@@ -8,7 +8,10 @@ import type { TestContext } from "node:test";
 
 import { build, selectTargets } from "../packages/build/src/binary.js";
 import { generateChangelog } from "../packages/build/src/changelog.js";
-import { generateFormula } from "../packages/build/src/homebrew.js";
+import {
+  generateFormula,
+  isValidFormulaPackageName,
+} from "../packages/build/src/homebrew.js";
 import { bumpVersion, publish } from "../packages/build/src/npm-publish.js";
 
 function createProject(t: TestContext, pkg: Record<string, unknown> = {}): string {
@@ -94,9 +97,30 @@ test("generateFormula uses repository metadata", (t) => {
   const formula = readFileSync(path, "utf-8");
 
   assert.match(formula, /class DemoCli < Formula/);
-  assert.match(formula, /homepage "https:\/\/github.com\/example\/demo-cli"/);
-  assert.match(formula, /license "MIT"/);
+  assert.match(formula, /homepage 'https:\/\/github.com\/example\/demo-cli'/);
+  assert.match(formula, /url 'https:\/\/registry\.npmjs\.org\/demo-cli\/-\/demo-cli-1\.2\.3\.tgz'/);
+  assert.match(formula, /license 'MIT'/);
   assert.match(formula, /depends_on "node@24"/);
+});
+
+test("generateFormula does not evaluate Ruby from package metadata", (t) => {
+  const cwd = createProject(t, {
+    description: '#{system("touch /tmp/owned")}\nsecond line',
+    license: "MIT' + system('touch /tmp/owned') + '",
+  });
+  const { path } = generateFormula({ cwd });
+  const formula = readFileSync(path, "utf-8");
+
+  assert.match(formula, /desc '#\{system\("touch \/tmp\/owned"\)\} second line'/);
+  assert.match(formula, /license 'MIT\\' \+ system\(\\'touch \/tmp\/owned\\'\) \+ \\''/);
+  assert.doesNotMatch(formula, /desc "/);
+});
+
+test("generateFormula rejects package names that can alter Ruby syntax", () => {
+  assert.equal(isValidFormulaPackageName("demo-cli"), true);
+  assert.equal(isValidFormulaPackageName("@example/demo-cli"), true);
+  assert.equal(isValidFormulaPackageName("demo-cli\nend\nsystem"), false);
+  assert.equal(isValidFormulaPackageName('demo-cli"; system'), false);
 });
 
 test("generateChangelog groups conventional commits", (t) => {

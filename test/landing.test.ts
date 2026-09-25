@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import test from "node:test";
@@ -83,6 +83,20 @@ test("landing output directory cannot escape or replace the project root", () =>
   assert.throws(() => resolveLandingOutDir("/tmp/project", "../site"), /Invalid output directory/);
 });
 
+test("landing output directory cannot escape through a symbolic link", (t) => {
+  const cwd = mkdtempSync(join(tmpdir(), "shipcli-landing-root-"));
+  const outside = mkdtempSync(join(tmpdir(), "shipcli-landing-outside-"));
+  t.after(() => rmSync(cwd, { recursive: true, force: true }));
+  t.after(() => rmSync(outside, { recursive: true, force: true }));
+
+  symlinkSync(outside, join(cwd, "web"), process.platform === "win32" ? "junction" : "dir");
+
+  assert.throws(
+    () => resolveLandingOutDir(cwd, "web"),
+    /cannot contain symbolic links/,
+  );
+});
+
 test("repository URLs are normalized for generated legal contact links", () => {
   assert.equal(
     normalizeRepositoryUrl("git+https://github.com/example/demo.git"),
@@ -93,5 +107,8 @@ test("repository URLs are normalized for generated legal contact links", () => {
     "https://github.com/example/demo",
   );
   assert.equal(normalizeRepositoryUrl({ url: "https://example.com/repo.git" }), "https://example.com/repo");
+  assert.equal(normalizeRepositoryUrl("javascript:alert(1)"), "");
+  assert.equal(normalizeRepositoryUrl("https://user:secret@example.com/repo"), "");
+  assert.equal(normalizeRepositoryUrl("http://example.com/repo"), "");
   assert.equal(normalizeRepositoryUrl(undefined), "");
 });

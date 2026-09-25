@@ -1,4 +1,12 @@
-import { existsSync, mkdirSync, writeFileSync, readFileSync, readdirSync, statSync } from "node:fs";
+import {
+  existsSync,
+  lstatSync,
+  mkdirSync,
+  writeFileSync,
+  readFileSync,
+  readdirSync,
+  statSync,
+} from "node:fs";
 import { join, dirname, isAbsolute, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { phase, status, success, fatal, fmt } from "@shipcli/core/output";
@@ -83,11 +91,19 @@ export function normalizeRepositoryUrl(repository: unknown): string {
       ? (repository as Record<string, string>).url
       : "";
 
-  return raw
+  const normalized = raw
     .replace(/^git\+/, "")
     .replace(/^git:\/\/github\.com\//, "https://github.com/")
     .replace(/^git@github\.com:/, "https://github.com/")
     .replace(/\.git$/, "");
+
+  try {
+    const url = new URL(normalized);
+    if (url.protocol !== "https:" || url.username || url.password) return "";
+    return url.toString().replace(/\/$/, "");
+  } catch {
+    return "";
+  }
 }
 
 export function resolveLandingOutDir(cwd: string, outDir: string): string {
@@ -102,6 +118,19 @@ export function resolveLandingOutDir(cwd: string, outDir: string): string {
   ) {
     throw new Error(`Invalid output directory: ${outDir}`);
   }
+
+  // A lexical containment check is not enough: an existing symlink such as
+  // web -> ../.. would redirect generated files outside the project.
+  let current = root;
+  for (const part of relativePath.split(sep)) {
+    current = join(current, part);
+    const metadata = lstatSync(current, { throwIfNoEntry: false });
+    if (!metadata) break;
+    if (metadata.isSymbolicLink()) {
+      throw new Error(`Output directory cannot contain symbolic links: ${outDir}`);
+    }
+  }
+
   return target;
 }
 
