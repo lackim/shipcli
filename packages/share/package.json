@@ -1,6 +1,6 @@
 {
   "name": "@shipcli/share",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Generate shareable Open Graph images for command-line products",
   "type": "module",
   "main": "./dist/index.js",

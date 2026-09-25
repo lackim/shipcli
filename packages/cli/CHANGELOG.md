@@ -1,5 +1,15 @@
 # @shipcli/cli
 
+## 0.5.2
+
+### Patch Changes
+
+- Updated dependencies [324ca1c]
+  - @shipcli/build@0.5.2
+  - @shipcli/landing@0.5.2
+  - @shipcli/core@0.5.2
+  - @shipcli/share@0.5.2
+
 ## 0.5.1
 
 ### Patch Changes
