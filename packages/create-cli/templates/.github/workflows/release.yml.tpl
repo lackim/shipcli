@@ -18,7 +18,7 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: mkdir -p release-artifact && npm pack --pack-destination release-artifact
-      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: npm-package
           path: release-artifact/*.tgz
@@ -39,9 +39,9 @@ jobs:
           package-manager-cache: false
       - name: Set up npm for trusted publishing
         run: npm install --global npm@11.15.0
-      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
           name: npm-package
           path: release-artifact
       # Configure this workflow as a trusted publisher in the npm package settings.
-      - run: npm publish release-artifact/*.tgz --access public
+      - run: npm publish ./release-artifact/*.tgz --access public

@@ -79,7 +79,7 @@ test("create package scaffolds a valid project without overwriting files", (t: T
   );
   assert.doesNotMatch(releaseWorkflow, /NPM_TOKEN|NODE_AUTH_TOKEN/);
   assert.match(releaseWorkflow, /id-token: write/);
-  assert.match(releaseWorkflow, /npm publish release-artifact\/\*\.tgz --access public/);
+  assert.match(releaseWorkflow, /npm publish \.\/release-artifact\/\*\.tgz --access public/);
   assert.match(releaseWorkflow, /actions\/upload-artifact@[0-9a-f]{40}/);
 
   const second = spawnSync(process.execPath, [script, "demo-cli"], {
